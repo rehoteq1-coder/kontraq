@@ -106,8 +106,10 @@ a{text-decoration:none}
 
 .hero-proof{display:flex;align-items:center;gap:20px;justify-content:center;opacity:0;animation:fi .8s 1.05s forwards;margin-bottom:72px}
 .proof-avs{display:flex}
-.proof-av{width:28px;height:28px;border-radius:50%;border:2px solid var(--void);margin-left:-8px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.proof-av{width:32px;height:32px;border-radius:50%;border:2px solid var(--void);margin-left:-9px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;background:var(--void3);transition:transform .2s}
 .proof-av:first-child{margin-left:0}
+.proof-av img{width:100%;height:100%;object-fit:cover;display:block}
+.proof-avs:hover .proof-av{transform:translateY(-2px)}
 .proof-stars{color:var(--gold);font-size:12px;letter-spacing:1px}
 .proof-txt{font-size:13px;color:rgba(255,255,255,.45)}
 .proof-txt strong{color:rgba(255,255,255,.75)}
@@ -217,8 +219,10 @@ a{text-decoration:none}
 .human-tabs-row{display:flex;gap:0;border-bottom:2px solid var(--bdr);overflow-x:auto}
 .htab{display:flex;align-items:center;gap:12px;padding:16px 24px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;flex-shrink:0;position:relative}
 .htab.on{border-bottom-color:var(--gold)}
-.htab-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--white);border:2px solid var(--bdr);transition:border-color .2s}
-.htab.on .htab-av{border-color:var(--gold)}
+.htab-av{width:44px;height:44px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--white);border:2px solid var(--bdr);transition:border-color .2s,filter .25s;overflow:hidden;background:#e8eaef;filter:grayscale(.55)}
+.htab.on .htab-av{border-color:var(--gold);filter:grayscale(0)}
+.htab:hover .htab-av{filter:grayscale(0)}
+.htab-av img{width:100%;height:100%;object-fit:cover;display:block}
 .htab-info{text-align:left}
 .htab-name{font-size:13px;font-weight:600;color:var(--slate2);line-height:1.2;transition:color .2s}
 .htab.on .htab-name{color:var(--tx)}
@@ -230,8 +234,13 @@ a{text-decoration:none}
 .htab-panel{display:none}
 .htab-panel.on{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;animation:panIn .4s cubic-bezier(.22,1,.36,1)}
 @keyframes panIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.hpanel-person{display:flex;align-items:flex-start;gap:14px;background:#f9f9fb;border:1px solid var(--bdr);border-radius:12px;padding:18px;margin-bottom:24px}
-.hpanel-av{width:50px;height:50px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--white)}
+.hpanel-person{display:flex;align-items:stretch;gap:18px;background:#f9f9fb;border:1px solid var(--bdr);border-radius:14px;padding:18px;margin-bottom:24px}
+.hpanel-av-wrap{position:relative;flex-shrink:0;width:118px}
+.hpanel-av{width:118px;height:148px;border-radius:12px;overflow:hidden;position:relative;background:#e8eaef;box-shadow:0 6px 20px rgba(15,23,42,.14)}
+.hpanel-av img{width:100%;height:100%;object-fit:cover;object-position:center 28%;display:block}
+.hpanel-av-badge{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;background:rgba(6,8,15,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.18);font-size:9px;letter-spacing:.4px;color:#fff;font-weight:700;text-transform:uppercase;white-space:nowrap}
+.hpanel-av-badge i{width:12px;height:12px;border-radius:50%;background:var(--grn);display:inline-flex;align-items:center;justify-content:center;font-size:7px;font-style:normal;color:#04301f;font-weight:900}
+.hpanel-person-body{display:flex;flex-direction:column;justify-content:center;min-width:0}
 .hpanel-quote{font-size:14px;color:var(--tx);line-height:1.65;font-style:italic}
 .hpanel-who{font-size:12px;color:var(--slate2);font-weight:500;margin-top:8px}
 .hpanel-list{list-style:none;margin-bottom:24px}
@@ -441,6 +450,12 @@ a{text-decoration:none}
   .mm-body{grid-template-columns:1fr}
   .mm-kpis{flex-wrap:wrap}
   .footer-top{grid-template-columns:1fr}
+  .hpanel-person{flex-direction:column;align-items:flex-start;gap:14px}
+  .hpanel-av-wrap{width:100%}
+  .hpanel-av{width:100%;height:190px;border-radius:10px}
+  .hpanel-av img{object-position:center 24%}
+  .proof-av{width:28px;height:28px}
+  .htab-av{width:38px;height:38px}
 }
 </style>
 </head>
@@ -493,12 +508,13 @@ a{text-decoration:none}
     </div>
     <div class="hero-proof">
       <div class="proof-avs">
-        <div class="proof-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AT</div>
-        <div class="proof-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">KA</div>
-        <div class="proof-av" style="background:linear-gradient(135deg,#10b981,#059669)">FM</div>
-        <div class="proof-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">OT</div>
-        <div class="proof-av" style="background:linear-gradient(135deg,#ef4444,#dc2626)">BL</div>
-        <div class="proof-av" style="background:linear-gradient(135deg,#f59e0b,#10b981)">+</div>
+        <div class="proof-av"><img src="assets/people/adetoye-av.jpg" alt="Engr. Adetoye Austine, solar engineer in Okitipupa" width="32" height="32" loading="lazy" decoding="async"/></div>
+        <div class="proof-av"><img src="assets/people/funmilayo-av.jpg" alt="Funmilayo Makinde, procurement manager in Abuja" width="32" height="32" loading="lazy" decoding="async"/></div>
+        <div class="proof-av"><img src="assets/people/kehinde-av.jpg" alt="Kehinde Adeyemi, ICT contractor in Lagos" width="32" height="32" loading="lazy" decoding="async"/></div>
+        <div class="proof-av"><img src="assets/people/olumide-av.jpg" alt="Olumide Taiwo, construction company owner in Port Harcourt" width="32" height="32" loading="lazy" decoding="async"/></div>
+        <div class="proof-av"><img src="assets/people/blessing-av.jpg" alt="Blessing Nwachukwu, furniture and interiors workshop owner" width="32" height="32" loading="lazy" decoding="async"/></div>
+        <div class="proof-av"><img src="assets/people/pieter-av.jpg" alt="Pieter van Wyk, logistics director in Lagos" width="32" height="32" loading="lazy" decoding="async"/></div>
+        <div class="proof-av" style="background:linear-gradient(135deg,var(--gold),var(--grn));color:var(--void)">+</div>
       </div>
       <div>
         <div class="proof-stars">★★★★★</div>
@@ -665,22 +681,22 @@ a{text-decoration:none}
     </div>
     <div class="human-tabs-row" id="htabs-row">
       <div class="htab on" onclick="switchHTAB(0,this)">
-        <div class="htab-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AT</div>
+        <div class="htab-av"><img src="assets/people/adetoye-av.jpg" alt="Engr. Adetoye Austine" width="44" height="44" loading="lazy" decoding="async"/></div>
         <div class="htab-info"><div class="htab-name">Engr. Adetoye</div><div class="htab-role">Electrical & Solar Engineer, Okitipupa</div></div>
         <div class="htab-prog"></div>
       </div>
       <div class="htab" onclick="switchHTAB(1,this)">
-        <div class="htab-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">KA</div>
+        <div class="htab-av"><img src="assets/people/kehinde-av.jpg" alt="Kehinde Adeyemi" width="44" height="44" loading="lazy" decoding="async"/></div>
         <div class="htab-info"><div class="htab-name">Kehinde Adeyemi</div><div class="htab-role">ICT Contractor, Lagos</div></div>
         <div class="htab-prog"></div>
       </div>
       <div class="htab" onclick="switchHTAB(2,this)">
-        <div class="htab-av" style="background:linear-gradient(135deg,#10b981,#059669)">FM</div>
+        <div class="htab-av"><img src="assets/people/funmilayo-av.jpg" alt="Funmilayo Makinde" width="44" height="44" loading="lazy" decoding="async"/></div>
         <div class="htab-info"><div class="htab-name">Funmilayo Makinde</div><div class="htab-role">Procurement Manager, Abuja</div></div>
         <div class="htab-prog"></div>
       </div>
       <div class="htab" onclick="switchHTAB(3,this)">
-        <div class="htab-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">OT</div>
+        <div class="htab-av"><img src="assets/people/olumide-av.jpg" alt="Olumide Taiwo" width="44" height="44" loading="lazy" decoding="async"/></div>
         <div class="htab-info"><div class="htab-name">Olumide Taiwo</div><div class="htab-role">Construction Company, Port Harcourt</div></div>
         <div class="htab-prog"></div>
       </div>
@@ -690,9 +706,8 @@ a{text-decoration:none}
       <div class="htab-panel on" id="htp-0">
         <div>
           <div class="hpanel-person">
-            <div class="hpanel-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AT</div>
-            <div>
-              <div class="hpanel-quote">"I posted my profile on Kontraq and within 3 days had a ₦4.2M solar installation contract from a school in Akure. The AI matched me based on my certifications and portfolio. No cold calls, no middlemen."</div>
+            <div class="hpanel-av-wrap"><div class="hpanel-av"><img src="assets/people/adetoye-lg.jpg" alt="Engr. Adetoye Austine" width="118" height="148" loading="lazy" decoding="async"/></div><div class="hpanel-av-badge"><i>✓</i>Verified</div></div>
+            <div class="hpanel-person-body"><div class="hpanel-quote">"I posted my profile on Kontraq and within 3 days had a ₦4.2M solar installation contract from a school in Akure. The AI matched me based on my certifications and portfolio. No cold calls, no middlemen."</div>
               <div class="hpanel-who">— Engr. Adetoye Austine · Rehoteq Technologies · Okitipupa, Ondo State</div>
             </div>
           </div>
@@ -727,9 +742,8 @@ a{text-decoration:none}
       <div class="htab-panel" id="htp-1">
         <div>
           <div class="hpanel-person">
-            <div class="hpanel-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">KA</div>
-            <div>
-              <div class="hpanel-quote">"As an ICT contractor, Kontraq gave me access to government and school tenders I never knew existed. The verification system gave my clients confidence to award contracts worth millions."</div>
+            <div class="hpanel-av-wrap"><div class="hpanel-av"><img src="assets/people/kehinde-lg.jpg" alt="Kehinde Adeyemi" width="118" height="148" loading="lazy" decoding="async"/></div><div class="hpanel-av-badge"><i>✓</i>Verified</div></div>
+            <div class="hpanel-person-body"><div class="hpanel-quote">"As an ICT contractor, Kontraq gave me access to government and school tenders I never knew existed. The verification system gave my clients confidence to award contracts worth millions."</div>
               <div class="hpanel-who">— Kehinde Adeyemi · ICT Infrastructure · Lagos</div>
             </div>
           </div>
@@ -737,7 +751,7 @@ a{text-decoration:none}
             <li><div class="hpanel-check">✓</div>Access government tenders, NGO procurement, and corporate contracts</li>
             <li><div class="hpanel-check">✓</div>Business verification increases proposal acceptance rate by 3x</li>
             <li><div class="hpanel-check">✓</div>Structured proposal templates win more contracts</li>
-            <li><div class="hpanel-check">✓</div>Milestone-based payments protect both parties</div></li>
+            <li><div class="hpanel-check">✓</div>Milestone-based payments protect both parties</li>
           </ul>
           <button class="hpanel-cta">Post your business profile →</button>
         </div>
@@ -764,9 +778,8 @@ a{text-decoration:none}
       <div class="htab-panel" id="htp-2">
         <div>
           <div class="hpanel-person">
-            <div class="hpanel-av" style="background:linear-gradient(135deg,#10b981,#059669)">FM</div>
-            <div>
-              <div class="hpanel-quote">"Finding verified contractors used to take weeks of phone calls and referrals. Now I post on Kontraq and receive qualified, structured proposals within 48 hours. The Trust Score tells me everything I need to know."</div>
+            <div class="hpanel-av-wrap"><div class="hpanel-av"><img src="assets/people/funmilayo-lg.jpg" alt="Funmilayo Makinde" width="118" height="148" loading="lazy" decoding="async"/></div><div class="hpanel-av-badge"><i>✓</i>Verified</div></div>
+            <div class="hpanel-person-body"><div class="hpanel-quote">"Finding verified contractors used to take weeks of phone calls and referrals. Now I post on Kontraq and receive qualified, structured proposals within 48 hours. The Trust Score tells me everything I need to know."</div>
               <div class="hpanel-who">— Funmilayo Makinde · Procurement Manager · Abuja</div>
             </div>
           </div>
@@ -801,9 +814,8 @@ a{text-decoration:none}
       <div class="htab-panel" id="htp-3">
         <div>
           <div class="hpanel-person">
-            <div class="hpanel-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">OT</div>
-            <div>
-              <div class="hpanel-quote">"Our construction company was invisible online. Kontraq gave us a verified profile, showcased our portfolio and connected us to a ₦18M government contract in Rivers State. The platform is serious business infrastructure."</div>
+            <div class="hpanel-av-wrap"><div class="hpanel-av"><img src="assets/people/olumide-lg.jpg" alt="Olumide Taiwo" width="118" height="148" loading="lazy" decoding="async"/></div><div class="hpanel-av-badge"><i>✓</i>Verified</div></div>
+            <div class="hpanel-person-body"><div class="hpanel-quote">"Our construction company was invisible online. Kontraq gave us a verified profile, showcased our portfolio and connected us to a ₦18M government contract in Rivers State. The platform is serious business infrastructure."</div>
               <div class="hpanel-who">— Olumide Taiwo · Taiwo Construction Ltd · Port Harcourt</div>
             </div>
           </div>
