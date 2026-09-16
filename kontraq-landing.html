@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Kontraq — Find Opportunities. Win Contracts. Build Business.</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --void:#06080F;
+  --void2:#090d1a;
+  --void3:#0d1525;
+  --gold:#F59E0B;
+  --gold2:#D97706;
+  --gold3:#FCD34D;
+  --goldl:rgba(245,158,11,0.12);
+  --goldb:rgba(245,158,11,0.06);
+  --white:#FFFFFF;
+  --offwhite:#F8FAFC;
+  --slate:#94A3B8;
+  --slate2:#64748B;
+  --bdr:#E2E8F0;
+  --tx:#0F172A;
+  --tx2:#475569;
+  --grn:#10B981;
+  --grnl:rgba(16,185,129,0.12);
+  --blue:#3B82F6;
+  --bluel:rgba(59,130,246,0.12);
+  --red:#EF4444;
+  --redl:rgba(239,68,68,0.12);
+  --glass:rgba(255,255,255,0.04);
+  --glass2:rgba(255,255,255,0.07);
+  --gbdr:rgba(255,255,255,0.08);
+  --gbdr2:rgba(255,255,255,0.12);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;font-size:15px;background:var(--void);color:var(--white);overflow-x:hidden}
+button{font-family:'Inter',sans-serif;cursor:pointer}
+a{text-decoration:none}
+
+/* ═══════════════════════════════
+   CANVAS
+═══════════════════════════════ */
+#bg-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.6}
+
+/* ═══════════════════════════════
+   NAV
+═══════════════════════════════ */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;height:66px;display:flex;align-items:center;padding:0 48px;gap:32px;transition:all .3s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(6,8,15,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-color:var(--gbdr)}
+.nav-logo{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.nav-logo-mark{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--void);box-shadow:0 0 20px rgba(245,158,11,.3);letter-spacing:-.5px}
+.nav-logo-text{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--white);letter-spacing:-.5px}
+.nav-logo-text span{color:var(--gold)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:14px;color:rgba(255,255,255,.55);font-weight:500;transition:color .15s}
+.nav-links a:hover{color:var(--white)}
+.nav-r{margin-left:auto;display:flex;gap:10px;align-items:center}
+.nav-ghost{background:var(--glass);border:1px solid var(--gbdr);color:var(--white);padding:8px 20px;border-radius:8px;font-size:13px;font-weight:500;transition:all .15s}
+.nav-ghost:hover{background:var(--glass2);border-color:var(--gbdr2)}
+.nav-solid{background:var(--gold);color:var(--void);border:none;padding:9px 22px;border-radius:8px;font-size:13px;font-weight:700;transition:all .15s;box-shadow:0 0 24px rgba(245,158,11,.3)}
+.nav-solid:hover{background:var(--gold3);box-shadow:0 0 36px rgba(245,158,11,.45);transform:translateY(-1px)}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:130px 24px 60px;overflow:hidden;z-index:1}
+
+/* Orbs */
+.orb{position:absolute;border-radius:50%;pointer-events:none;z-index:0}
+.orb1{top:20%;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(ellipse,rgba(245,158,11,.09) 0%,rgba(245,158,11,.04) 40%,transparent 70%);animation:orbPulse 10s ease-in-out infinite}
+.orb2{top:10%;left:10%;width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,.07) 0%,transparent 70%);animation:orbDrift 14s ease-in-out infinite}
+.orb3{top:30%;right:5%;width:400px;height:400px;background:radial-gradient(circle,rgba(245,158,11,.06) 0%,transparent 70%);animation:orbDrift2 11s ease-in-out infinite}
+@keyframes orbPulse{0%,100%{transform:translateX(-50%) scale(1);opacity:.7}50%{transform:translateX(-50%) scale(1.1);opacity:1}}
+@keyframes orbDrift{0%,100%{transform:translate(0,0)}33%{transform:translate(40px,-30px)}66%{transform:translate(-20px,40px)}}
+@keyframes orbDrift2{0%,100%{transform:translate(0,0)}50%{transform:translate(-30px,20px)}}
+
+/* Grid */
+.hero-grid{position:absolute;inset:0;z-index:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(ellipse 80% 70% at 50% 0%,black 30%,transparent 100%)}
+
+/* Noise texture */
+.hero-noise{position:absolute;inset:0;z-index:0;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");background-size:256px}
+
+.hero-content{position:relative;z-index:2;max-width:860px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);color:var(--gold);font-size:11px;font-weight:700;padding:6px 16px;border-radius:100px;margin-bottom:28px;letter-spacing:.06em;text-transform:uppercase}
+.hero-eyebrow-dot{width:5px;height:5px;background:var(--gold);border-radius:50%;box-shadow:0 0 8px var(--gold);animation:gdot 2s ease-in-out infinite}
+@keyframes gdot{0%,100%{opacity:1;box-shadow:0 0 8px var(--gold)}50%{opacity:.4;box-shadow:0 0 16px var(--gold)}}
+
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(44px,6.5vw,82px);font-weight:800;line-height:1.03;letter-spacing:-3px;margin-bottom:24px}
+.hero h1 .l1{display:block;opacity:0;transform:translateY(28px);animation:su .8s .1s cubic-bezier(.22,1,.36,1) forwards;color:var(--white)}
+.hero h1 .l2{display:block;opacity:0;transform:translateY(28px);animation:su .8s .25s cubic-bezier(.22,1,.36,1) forwards;color:var(--white)}
+.hero h1 .l3{display:block;opacity:0;transform:translateY(28px);animation:su .8s .4s cubic-bezier(.22,1,.36,1) forwards;color:transparent;background:linear-gradient(90deg,var(--gold),#fbbf24,var(--gold3));-webkit-background-clip:text;background-clip:text}
+@keyframes su{to{opacity:1;transform:translateY(0)}}
+
+.hero-sub{font-size:clamp(15px,1.8vw,18px);color:rgba(255,255,255,.5);line-height:1.75;max-width:560px;margin:0 auto 38px;opacity:0;animation:fi .8s .65s forwards}
+@keyframes fi{to{opacity:1}}
+
+.hero-acts{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:36px;opacity:0;animation:fi .8s .85s forwards}
+.hbtn-p{background:var(--gold);color:var(--void);border:none;padding:14px 32px;border-radius:10px;font-size:15px;font-weight:700;transition:all .2s;box-shadow:0 0 28px rgba(245,158,11,.35);letter-spacing:.01em}
+.hbtn-p:hover{background:var(--gold3);box-shadow:0 0 44px rgba(245,158,11,.5);transform:translateY(-2px)}
+.hbtn-s{background:var(--glass);color:var(--white);border:1px solid var(--gbdr);padding:14px 28px;border-radius:10px;font-size:15px;font-weight:500;transition:all .2s}
+.hbtn-s:hover{background:var(--glass2);border-color:var(--gbdr2)}
+.hbtn-g{background:none;color:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.1);padding:14px 22px;border-radius:10px;font-size:14px;font-weight:500;transition:all .2s}
+.hbtn-g:hover{color:var(--white);border-color:rgba(255,255,255,.2)}
+
+.hero-proof{display:flex;align-items:center;gap:20px;justify-content:center;opacity:0;animation:fi .8s 1.05s forwards;margin-bottom:72px}
+.proof-avs{display:flex}
+.proof-av{width:28px;height:28px;border-radius:50%;border:2px solid var(--void);margin-left:-8px;font-family:'Syne',sans-serif;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.proof-av:first-child{margin-left:0}
+.proof-stars{color:var(--gold);font-size:12px;letter-spacing:1px}
+.proof-txt{font-size:13px;color:rgba(255,255,255,.45)}
+.proof-txt strong{color:rgba(255,255,255,.75)}
+
+/* ═══════════════════════════════
+   HERO DASHBOARD MOCKUP
+═══════════════════════════════ */
+.hero-mockup{position:relative;z-index:2;max-width:1000px;margin:0 auto;opacity:0;transform:translateY(40px);animation:su .9s 1.2s cubic-bezier(.22,1,.36,1) forwards}
+.mockup-glow{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:70%;height:50%;background:radial-gradient(ellipse,rgba(245,158,11,.12) 0%,transparent 70%);filter:blur(30px);pointer-events:none}
+.mockup-frame{background:rgba(10,14,26,.95);border:1px solid rgba(245,158,11,.15);border-radius:16px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.04),inset 0 1px 0 rgba(255,255,255,.06)}
+.mf-bar{background:#070a14;padding:12px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.05)}
+.mf-dot{width:10px;height:10px;border-radius:50%}
+.mf-url{margin-left:10px;background:rgba(255,255,255,.04);border-radius:4px;padding:3px 14px;font-size:10px;color:rgba(255,255,255,.25);font-family:'DM Mono',monospace}
+.mf-body{display:grid;grid-template-columns:200px 1fr}
+/* Mock sidebar */
+.msb{background:#060910;padding:14px 10px;border-right:1px solid rgba(255,255,255,.05)}
+.msb-logo{display:flex;align-items:center;gap:7px;padding:4px 8px;margin-bottom:18px}
+.msb-logo-mark{width:22px;height:22px;border-radius:5px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--void);font-family:'Syne',sans-serif}
+.msb-logo-text{font-size:12px;font-weight:800;color:#e2e8f0;font-family:'Syne',sans-serif;letter-spacing:-.3px}
+.msb-logo-text span{color:var(--gold)}
+.msb-sec{margin-bottom:16px}
+.msb-lbl{font-size:9px;font-weight:700;color:rgba(255,255,255,.2);letter-spacing:.08em;padding:0 8px;margin-bottom:6px}
+.msb-item{display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:6px;font-size:10px;color:rgba(255,255,255,.3);margin-bottom:2px}
+.msb-item.on{background:rgba(245,158,11,.1);color:rgba(255,255,255,.85);border:1px solid rgba(245,158,11,.15)}
+.msb-item .dot{width:4px;height:4px;border-radius:50%;background:currentColor;flex-shrink:0}
+/* Mock main */
+.mm{display:flex;flex-direction:column;overflow:hidden}
+.mm-top{background:#080b16;padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:10px}
+.mm-title{font-size:12px;font-weight:600;color:#e2e8f0}
+.mm-badge{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:var(--gold);font-size:9px;font-weight:700;padding:2px 8px;border-radius:100px}
+.mm-search{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:5px;padding:4px 10px;font-size:10px;color:rgba(255,255,255,.2);margin-left:auto;font-family:'DM Mono',monospace;width:150px}
+/* Opportunity cards */
+.mm-body{padding:12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.opp-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px;transition:border-color .2s}
+.opp-card:hover{border-color:rgba(245,158,11,.25)}
+.opp-card-cat{font-size:8px;font-weight:700;color:rgba(255,255,255,.3);letter-spacing:.06em;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
+.opp-card-title{font-size:11px;font-weight:600;color:rgba(255,255,255,.85);margin-bottom:6px;line-height:1.4}
+.opp-card-budget{font-size:13px;font-weight:700;color:var(--gold);font-family:'DM Mono',monospace;margin-bottom:8px;letter-spacing:-.5px}
+.opp-card-meta{display:flex;flex-direction:column;gap:3px;margin-bottom:9px}
+.opp-card-meta-row{display:flex;align-items:center;gap:5px;font-size:9px;color:rgba(255,255,255,.35)}
+.opp-card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:9px}
+.opp-tag{font-size:8px;padding:2px 6px;border-radius:3px;background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);font-weight:500}
+.opp-card-foot{display:flex;align-items:center;justify-content:space-between}
+.opp-proposals{font-size:8px;color:rgba(255,255,255,.3)}
+.opp-btn{font-size:8px;padding:4px 10px;border-radius:4px;background:var(--goldl);border:1px solid rgba(245,158,11,.2);color:var(--gold);font-weight:700;border:none}
+.opp-card.featured{border-color:rgba(245,158,11,.25);background:rgba(245,158,11,.04)}
+.opp-card.featured .opp-card-cat{color:var(--gold)}
+/* Mini KPI row */
+.mm-kpis{display:flex;border-top:1px solid rgba(255,255,255,.05);background:#060910}
+.mm-kpi{flex:1;padding:10px 14px;border-right:1px solid rgba(255,255,255,.05)}
+.mm-kpi:last-child{border-right:none}
+.mm-kpi-v{font-size:14px;font-weight:700;color:#fff;font-family:'DM Mono',monospace;letter-spacing:-.5px}
+.mm-kpi-v.gold{color:var(--gold)}
+.mm-kpi-v.grn{color:var(--grn)}
+.mm-kpi-l{font-size:8px;color:rgba(255,255,255,.25);margin-top:2px;font-weight:500}
+
+/* Trust badges floating */
+.hero-trust-badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px;opacity:0;animation:fi .8s 1.5s forwards}
+.htb{display:flex;align-items:center;gap:6px;background:var(--glass);border:1px solid var(--gbdr);border-radius:100px;padding:6px 14px;font-size:11px;color:rgba(255,255,255,.55);font-weight:500}
+.htb-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+
+/* ═══════════════════════════════
+   LIVE OPPORTUNITIES STRIP
+═══════════════════════════════ */
+.opps-strip{background:var(--offwhite);padding:72px 48px;position:relative}
+.opps-strip-inner{max-width:1100px;margin:0 auto}
+.strip-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;flex-wrap:wrap;gap:16px}
+.strip-head-left .section-eyebrow{font-size:11px;font-weight:700;color:var(--gold2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.strip-head-left h2{font-family:'Syne',sans-serif;font-size:clamp(26px,3vw,38px);font-weight:800;color:var(--tx);letter-spacing:-1px;line-height:1.1}
+.strip-head-right{display:flex;gap:10px;align-items:center}
+.view-all-btn{display:flex;align-items:center;gap:6px;background:none;border:1px solid var(--bdr);color:var(--tx2);padding:8px 18px;border-radius:8px;font-size:13px;font-weight:500;transition:all .15s}
+.view-all-btn:hover{background:var(--tx);color:var(--white);border-color:var(--tx)}
+.post-btn{background:var(--gold);color:var(--void);border:none;padding:9px 20px;border-radius:8px;font-size:13px;font-weight:700;transition:all .15s;box-shadow:0 4px 14px rgba(245,158,11,.25)}
+.post-btn:hover{background:var(--gold2);box-shadow:0 6px 20px rgba(245,158,11,.35);transform:translateY(-1px)}
+.opps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+/* Light opportunity cards */
+.lopp{background:var(--white);border:1px solid var(--bdr);border-radius:14px;padding:22px;transition:all .2s;position:relative;overflow:hidden}
+.lopp::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold3));transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.lopp:hover{border-color:rgba(245,158,11,.3);box-shadow:0 8px 32px rgba(245,158,11,.08);transform:translateY(-3px)}
+.lopp:hover::before{transform:scaleX(1)}
+.lopp-head{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px}
+.lopp-cat{font-size:10px;font-weight:700;color:var(--slate2);letter-spacing:.06em;text-transform:uppercase}
+.lopp-verified{display:flex;align-items:center;gap:4px;background:#dcfce7;color:#166534;font-size:10px;font-weight:700;padding:3px 9px;border-radius:100px}
+.lopp-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--tx);margin-bottom:10px;line-height:1.3;letter-spacing:-.3px}
+.lopp-budget{font-family:'DM Mono',monospace;font-size:20px;font-weight:700;color:var(--gold2);letter-spacing:-1px;margin-bottom:12px}
+.lopp-meta{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
+.lopp-meta-row{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--tx2)}
+.lopp-meta-icon{font-size:13px;width:16px;text-align:center;flex-shrink:0}
+.lopp-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.lopp-tag{font-size:11px;padding:3px 10px;border-radius:5px;background:var(--offwhite);color:var(--tx2);font-weight:500;border:1px solid var(--bdr)}
+.lopp-foot{display:flex;align-items:center;justify-content:space-between}
+.lopp-props{font-size:12px;color:var(--slate2);font-weight:500}
+.lopp-view{background:var(--tx);color:var(--white);border:none;padding:8px 18px;border-radius:7px;font-size:12px;font-weight:600;transition:all .15s}
+.lopp:hover .lopp-view{background:var(--gold2);color:var(--void)}
+.lopp-submit{background:var(--goldl);color:var(--gold2);border:1px solid rgba(245,158,11,.3);padding:8px 18px;border-radius:7px;font-size:12px;font-weight:700;transition:all .15s}
+.lopp-submit:hover{background:var(--gold);color:var(--void)}
+.lopp-urgency{display:inline-flex;align-items:center;gap:5px;background:#fff8e1;border:1px solid #fde68a;color:#92400e;font-size:10px;font-weight:700;padding:3px 9px;border-radius:5px;margin-bottom:12px}
+
+/* ═══════════════════════════════
+   HUMAN TABS
+═══════════════════════════════ */
+.htabs-section{background:var(--white);padding:80px 48px;border-top:1px solid var(--bdr)}
+.htabs-inner{max-width:1100px;margin:0 auto}
+.section-eyebrow{font-size:11px;font-weight:700;color:var(--gold2);letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.section-h2{font-family:'Syne',sans-serif;font-size:clamp(28px,3.5vw,44px);font-weight:800;color:var(--tx);letter-spacing:-1.2px;line-height:1.1;margin-bottom:12px}
+.section-sub{font-size:15px;color:var(--slate2);max-width:500px;line-height:1.65;margin-bottom:40px}
+.human-tabs-row{display:flex;gap:0;border-bottom:2px solid var(--bdr);overflow-x:auto}
+.htab{display:flex;align-items:center;gap:12px;padding:16px 24px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s;flex-shrink:0;position:relative}
+.htab.on{border-bottom-color:var(--gold)}
+.htab-av{width:40px;height:40px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--white);border:2px solid var(--bdr);transition:border-color .2s}
+.htab.on .htab-av{border-color:var(--gold)}
+.htab-info{text-align:left}
+.htab-name{font-size:13px;font-weight:600;color:var(--slate2);line-height:1.2;transition:color .2s}
+.htab.on .htab-name{color:var(--tx)}
+.htab-role{font-size:11px;color:var(--slate);margin-top:1px}
+.htab-prog{position:absolute;bottom:-2px;left:0;right:0;height:3px;background:var(--gold);transform:scaleX(0);transform-origin:left}
+.htab.on .htab-prog{animation:tprog 4s linear forwards}
+@keyframes tprog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.htab-panels{margin-top:48px}
+.htab-panel{display:none}
+.htab-panel.on{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;animation:panIn .4s cubic-bezier(.22,1,.36,1)}
+@keyframes panIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hpanel-person{display:flex;align-items:flex-start;gap:14px;background:#f9f9fb;border:1px solid var(--bdr);border-radius:12px;padding:18px;margin-bottom:24px}
+.hpanel-av{width:50px;height:50px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--white)}
+.hpanel-quote{font-size:14px;color:var(--tx);line-height:1.65;font-style:italic}
+.hpanel-who{font-size:12px;color:var(--slate2);font-weight:500;margin-top:8px}
+.hpanel-list{list-style:none;margin-bottom:24px}
+.hpanel-list li{display:flex;align-items:flex-start;gap:10px;padding:9px 0;border-bottom:1px solid var(--bdr);font-size:14px;color:var(--tx2);line-height:1.5}
+.hpanel-list li:last-child{border-bottom:none}
+.hpanel-check{width:18px;height:18px;border-radius:5px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--void);flex-shrink:0;margin-top:2px;font-weight:700}
+.hpanel-cta{display:inline-flex;align-items:center;gap:6px;background:var(--gold);color:var(--void);border:none;padding:11px 22px;border-radius:8px;font-size:14px;font-weight:700;transition:all .15s}
+.hpanel-cta:hover{background:var(--gold3);transform:translateY(-1px);box-shadow:0 4px 16px rgba(245,158,11,.3)}
+/* Panel screen */
+.hpanel-screen{background:var(--void2);border:1px solid rgba(245,158,11,.12);border-radius:14px;overflow:hidden;box-shadow:0 20px 48px rgba(0,0,0,.12)}
+.hps-bar{background:var(--void);padding:10px 14px;display:flex;gap:6px;border-bottom:1px solid rgba(255,255,255,.05)}
+.hps-dot{width:9px;height:9px;border-radius:50%}
+.hps-body{padding:16px}
+.hps-label{font-size:9px;color:var(--gold);font-weight:700;letter-spacing:.08em;margin-bottom:12px}
+.hps-opp{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:7px;padding:12px;margin-bottom:8px}
+.hps-opp-title{font-size:11px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:4px}
+.hps-opp-budget{font-size:14px;font-weight:700;color:var(--gold);font-family:'DM Mono',monospace;letter-spacing:-.5px;margin-bottom:6px}
+.hps-opp-meta{display:flex;gap:8px;flex-wrap:wrap}
+.hps-opp-meta span{font-size:9px;color:rgba(255,255,255,.3);background:rgba(255,255,255,.04);padding:2px 8px;border-radius:3px}
+.hps-opp-foot{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.hps-match{font-size:9px;font-weight:700;color:var(--grn);background:rgba(16,185,129,.08);padding:2px 8px;border-radius:3px}
+.hps-btn{font-size:8px;padding:4px 10px;border-radius:4px;background:rgba(245,158,11,.12);color:var(--gold);font-weight:700;border:none;cursor:default}
+
+/* ═══════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════ */
+.how-section{background:var(--void);padding:100px 48px;position:relative;overflow:hidden;z-index:1}
+.how-orb{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,rgba(245,158,11,.06) 0%,transparent 70%);pointer-events:none}
+.how-inner{max-width:1100px;margin:0 auto;position:relative;z-index:1}
+.how-header{text-align:center;margin-bottom:64px}
+.how-header .section-h2{color:var(--white)}
+.how-header .section-sub{color:rgba(255,255,255,.45);margin:12px auto 0}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
+.how-steps::before{content:'';position:absolute;top:40px;left:16.67%;right:16.67%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,158,11,.3),rgba(245,158,11,.3),transparent);z-index:0}
+.how-step{text-align:center;padding:0 32px;position:relative;z-index:1}
+.how-step-num{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin:0 auto 24px;position:relative}
+.how-step-num::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(245,158,11,.2)}
+.how-step-n1{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(245,158,11,.05));color:var(--gold);border:1px solid rgba(245,158,11,.25)}
+.how-step-n2{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(59,130,246,.04));color:var(--blue);border:1px solid rgba(59,130,246,.2)}
+.how-step-n3{background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(16,185,129,.04));color:var(--grn);border:1px solid rgba(16,185,129,.2)}
+.how-step-icon{font-size:28px}
+.how-step-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+.ls-gold{color:var(--gold)}.ls-blue{color:var(--blue)}.ls-grn{color:var(--grn)}
+.how-step-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--white);margin-bottom:10px;letter-spacing:-.3px}
+.how-step-body{font-size:13px;color:rgba(255,255,255,.45);line-height:1.7}
+.how-features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:10px}
+.how-feat{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:6px;padding:8px 12px;font-size:11px;color:rgba(255,255,255,.45);display:flex;align-items:center;gap:6px}
+.how-feat::before{content:'';width:4px;height:4px;border-radius:50%;flex-shrink:0}
+.ls-gold-feat::before{background:var(--gold)}
+.ls-blue-feat::before{background:var(--blue)}
+.ls-grn-feat::before{background:var(--grn)}
+
+/* ═══════════════════════════════
+   TRUST SECTION
+═══════════════════════════════ */
+.trust-section{background:var(--offwhite);padding:80px 48px;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr)}
+.trust-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.trust-left .section-h2{margin-bottom:16px}
+.trust-left .section-sub{margin-bottom:32px}
+.trust-score-card{background:var(--white);border:1px solid var(--bdr);border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.04)}
+.tsc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.tsc-biz{display:flex;align-items:center;gap:12px}
+.tsc-biz-av{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--void)}
+.tsc-biz-name{font-size:14px;font-weight:700;color:var(--tx);letter-spacing:-.3px}
+.tsc-biz-type{font-size:11px;color:var(--slate2);margin-top:2px}
+.tsc-score{text-align:center}
+.tsc-score-num{font-family:'DM Mono',monospace;font-size:36px;font-weight:700;color:var(--gold);letter-spacing:-2px;line-height:1}
+.tsc-score-label{font-size:10px;color:var(--slate2);font-weight:600;margin-top:2px;letter-spacing:.04em}
+.tsc-rows{display:flex;flex-direction:column;gap:10px}
+.tsc-row{display:flex;align-items:center;gap:10px}
+.tsc-row-label{font-size:12px;color:var(--tx2);flex:1}
+.tsc-row-bar{flex:2;height:5px;background:var(--bdr);border-radius:3px;overflow:hidden}
+.tsc-row-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),var(--gold3))}
+.tsc-row-val{font-size:11px;color:var(--tx2);font-weight:600;width:30px;text-align:right;font-family:'DM Mono',monospace}
+.tsc-row-check{color:var(--grn);font-size:13px;font-weight:700}
+.trust-right{display:flex;flex-direction:column;gap:16px}
+.trust-stat{display:flex;align-items:center;gap:16px;background:var(--white);border:1px solid var(--bdr);border-radius:12px;padding:18px 22px;transition:all .2s}
+.trust-stat:hover{border-color:rgba(245,158,11,.3);box-shadow:0 4px 20px rgba(245,158,11,.06);transform:translateX(4px)}
+.trust-stat-icon{width:40px;height:40px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.trust-stat-val{font-family:'DM Mono',monospace;font-size:22px;font-weight:700;color:var(--tx);letter-spacing:-.5px;line-height:1}
+.trust-stat-label{font-size:12px;color:var(--slate2);margin-top:2px}
+
+/* ═══════════════════════════════
+   BENTO FEATURES
+═══════════════════════════════ */
+.bento-section{background:var(--void);padding:100px 48px;z-index:1;position:relative}
+.bento-inner{max-width:1100px;margin:0 auto}
+.bento-header{margin-bottom:48px}
+.bento-header .section-h2{color:var(--white)}
+.bento-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.bc{background:var(--glass);border:1px solid var(--gbdr);border-radius:16px;padding:28px;position:relative;overflow:hidden;transition:all .2s}
+.bc:hover{border-color:rgba(245,158,11,.2);transform:translateY(-3px)}
+.bc.wide{grid-column:span 2}
+.bc-glow{position:absolute;top:-40px;right:-40px;width:180px;height:180px;border-radius:50%;pointer-events:none;opacity:.35;filter:blur(20px)}
+.bc-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:16px;flex-shrink:0}
+.bc-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--white);margin-bottom:8px;letter-spacing:-.3px}
+.bc-body{font-size:13px;color:rgba(255,255,255,.45);line-height:1.65}
+.bc-visual{margin-top:18px}
+.bc-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.bc-tag{font-size:10px;padding:3px 10px;border-radius:4px;font-weight:600}
+.bc-mini-deal{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:8px;padding:12px;margin-top:10px}
+.bc-mini-deal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.bc-mini-deal-title{font-size:11px;font-weight:600;color:rgba(255,255,255,.75)}
+.bc-mini-deal-val{font-size:12px;font-weight:700;color:var(--gold);font-family:'DM Mono',monospace}
+.bc-mini-milestones{display:flex;flex-direction:column;gap:5px}
+.bc-ms{display:flex;align-items:center;gap:8px;font-size:10px;color:rgba(255,255,255,.4)}
+.bc-ms-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.bc-ms-bar{flex:1;height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden}
+.bc-ms-fill{height:100%;border-radius:2px}
+.bc-ms-val{font-family:'DM Mono',monospace;font-size:9px;color:rgba(255,255,255,.3);width:44px;text-align:right}
+
+/* ═══════════════════════════════
+   PRICING
+═══════════════════════════════ */
+.pricing-section{background:var(--offwhite);padding:100px 48px;border-top:1px solid var(--bdr)}
+.pricing-inner{max-width:1000px;margin:0 auto}
+.pricing-header{text-align:center;margin-bottom:48px}
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.pc-light{background:var(--white);border:1px solid var(--bdr);border-radius:14px;padding:24px;position:relative;transition:all .2s}
+.pc-light:hover{border-color:rgba(245,158,11,.3);box-shadow:0 8px 32px rgba(245,158,11,.07)}
+.pc-light.pop{border-color:var(--gold);box-shadow:0 8px 32px rgba(245,158,11,.12)}
+.pc-pop-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--gold),var(--gold3));color:var(--void);font-size:10px;font-weight:800;padding:4px 14px;border-radius:100px;white-space:nowrap}
+.pc-plan-name{font-size:11px;font-weight:700;color:var(--slate2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:10px}
+.pc-price-val{font-family:'DM Mono',monospace;font-size:28px;font-weight:700;color:var(--tx);letter-spacing:-1.5px;line-height:1}
+.pc-price-per{font-size:12px;color:var(--slate2);margin-top:2px;margin-bottom:8px}
+.pc-credits{font-size:11px;font-weight:600;color:var(--gold2);background:var(--goldl);padding:3px 9px;border-radius:100px;display:inline-block;margin-bottom:16px}
+.pc-feats{list-style:none;margin-bottom:20px}
+.pc-feats li{font-size:12px;color:var(--tx2);padding:5px 0;border-bottom:1px solid var(--bdr);display:flex;gap:7px;align-items:flex-start}
+.pc-feats li:last-child{border-bottom:none}
+.pc-check{color:var(--gold);font-weight:700;flex-shrink:0;margin-top:1px}
+.pc-btn{width:100%;padding:10px;border-radius:8px;font-size:13px;font-weight:700;transition:all .15s}
+.pc-btn-o{background:none;border:1px solid var(--bdr);color:var(--tx2)}.pc-btn-o:hover{border-color:var(--gold);color:var(--gold2)}
+.pc-btn-f{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--void);border:none;box-shadow:0 4px 14px rgba(245,158,11,.25)}.pc-btn-f:hover{box-shadow:0 6px 20px rgba(245,158,11,.4);transform:translateY(-1px)}
+.flw-note{text-align:center;margin-top:20px;font-size:12px;color:var(--slate2);display:flex;align-items:center;justify-content:center;gap:6px}
+.flw-ico{background:#f5a623;color:#fff;font-size:8px;font-weight:700;padding:2px 6px;border-radius:3px}
+
+/* ═══════════════════════════════
+   FAQ
+═══════════════════════════════ */
+.faq-section{background:var(--white);padding:80px 48px;border-top:1px solid var(--bdr)}
+.faq-inner{max-width:700px;margin:0 auto}
+.faq-header{text-align:center;margin-bottom:44px}
+.faq-item{border-bottom:1px solid var(--bdr);padding:18px 0;cursor:pointer}
+.faq-q{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:500;color:var(--tx);gap:16px}
+.faq-icon{font-size:18px;color:var(--slate);transition:all .2s;flex-shrink:0;line-height:1}
+.faq-item.open .faq-icon{transform:rotate(45deg);color:var(--gold)}
+.faq-item.open .faq-q{color:var(--gold2)}
+.faq-a{font-size:14px;color:var(--tx2);line-height:1.75;max-height:0;overflow:hidden;transition:max-height .3s ease,padding .2s}
+.faq-item.open .faq-a{max-height:220px;padding-top:12px}
+
+/* ═══════════════════════════════
+   CLOSE CTA
+═══════════════════════════════ */
+.cta-section{background:var(--void);padding:100px 48px;text-align:center;position:relative;overflow:hidden;z-index:1}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(245,158,11,.1) 0%,transparent 70%);pointer-events:none}
+.cta-section h2{font-family:'Syne',sans-serif;font-size:clamp(32px,5vw,60px);font-weight:800;color:var(--white);letter-spacing:-2px;line-height:1.08;margin-bottom:16px;position:relative;z-index:1}
+.cta-section h2 .gold-text{color:var(--gold)}
+.cta-section p{font-size:16px;color:rgba(255,255,255,.45);margin-bottom:36px;position:relative;z-index:1}
+.cta-acts{display:flex;gap:12px;justify-content:center;position:relative;z-index:1;flex-wrap:wrap}
+.cta-note{font-size:12px;color:rgba(255,255,255,.3);margin-top:18px;position:relative;z-index:1}
+
+/* ═══════════════════════════════
+   FOOTER
+═══════════════════════════════ */
+.footer{background:#030508;border-top:1px solid rgba(255,255,255,.06);padding:52px 48px 40px}
+.footer-top{display:grid;grid-template-columns:240px 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand-logo{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.footer-brand-desc{font-size:13px;color:rgba(255,255,255,.35);line-height:1.65}
+.footer-col-title{font-size:12px;font-weight:700;color:rgba(255,255,255,.6);letter-spacing:.06em;text-transform:uppercase;margin-bottom:16px}
+.footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.35);margin-bottom:9px;transition:color .15s;cursor:pointer}
+.footer-col a:hover{color:rgba(255,255,255,.7)}
+.footer-bottom{display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.06);padding-top:24px;flex-wrap:wrap;gap:12px}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.25)}
+.footer-bottom-links{display:flex;gap:20px}
+.footer-bottom-links a{font-size:12px;color:rgba(255,255,255,.25);cursor:pointer}
+.footer-bottom-links a:hover{color:rgba(255,255,255,.55)}
+
+/* ═══════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════ */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s cubic-bezier(.22,1,.36,1),transform .65s cubic-bezier(.22,1,.36,1)}
+.reveal.vis{opacity:1;transform:translateY(0)}
+.reveal-d1{transition-delay:.1s}
+.reveal-d2{transition-delay:.2s}
+.reveal-d3{transition-delay:.3s}
+.reveal-d4{transition-delay:.4s}
+
+@media(max-width:1024px){
+  .nav{padding:0 20px}.nav-links{display:none}
+  .hero h1{font-size:44px;letter-spacing:-1.5px}
+  .hero-mockup .mf-body{grid-template-columns:1fr}
+  .msb{display:none}
+  .mm-body{grid-template-columns:1fr 1fr}
+  .opps-grid{grid-template-columns:1fr 1fr}
+  .htab-panel.on{grid-template-columns:1fr;gap:28px}
+  .how-steps{grid-template-columns:1fr}
+  .how-steps::before{display:none}
+  .trust-inner{grid-template-columns:1fr}
+  .bento-grid{grid-template-columns:1fr}.bc.wide{grid-column:span 1}
+  .pricing-grid{grid-template-columns:1fr 1fr}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .htabs-section,.bento-section,.how-section,.pricing-section,.faq-section,.cta-section,.opps-strip,.trust-section{padding-left:20px;padding-right:20px}
+}
+@media(max-width:640px){
+  .opps-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .mm-body{grid-template-columns:1fr}
+  .mm-kpis{flex-wrap:wrap}
+  .footer-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- BG CANVAS -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ══════════ NAV ══════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-mark">KQ</div>
+    <span class="nav-logo-text">Kontr<span>aq</span></span>
+  </div>
+  <div class="nav-links">
+    <a href="#opportunities">Opportunities</a>
+    <a href="#how">How it works</a>
+    <a href="#trust">Trust</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <div class="nav-r">
+    <button class="nav-ghost">Log in</button>
+    <button class="nav-solid">Find Opportunities →</button>
+  </div>
+</nav>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-noise"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      Nigeria's Business Opportunity Network
+    </div>
+    <h1>
+      <span class="l1">Find Opportunities.</span>
+      <span class="l2">Win Contracts.</span>
+      <span class="l3">Build Business.</span>
+    </h1>
+    <p class="hero-sub">Connect with verified organizations, discover projects and procurement opportunities, submit proposals and manage your deals — all from one trusted platform.</p>
+    <div class="hero-acts">
+      <button class="hbtn-p">Find Opportunities →</button>
+      <button class="hbtn-s">Post an Opportunity</button>
+      <button class="hbtn-g">Find Verified Businesses</button>
+    </div>
+    <div class="hero-proof">
+      <div class="proof-avs">
+        <div class="proof-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AT</div>
+        <div class="proof-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">KA</div>
+        <div class="proof-av" style="background:linear-gradient(135deg,#10b981,#059669)">FM</div>
+        <div class="proof-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">OT</div>
+        <div class="proof-av" style="background:linear-gradient(135deg,#ef4444,#dc2626)">BL</div>
+        <div class="proof-av" style="background:linear-gradient(135deg,#f59e0b,#10b981)">+</div>
+      </div>
+      <div>
+        <div class="proof-stars">★★★★★</div>
+        <div class="proof-txt"><strong>2,400+</strong> businesses winning contracts on Kontraq</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD MOCKUP -->
+  <div class="hero-mockup">
+    <div class="mockup-glow"></div>
+    <div class="mockup-frame">
+      <div class="mf-bar">
+        <div class="mf-dot" style="background:#FF5F57"></div>
+        <div class="mf-dot" style="background:#FEBC2E"></div>
+        <div class="mf-dot" style="background:#28CA41"></div>
+        <div class="mf-url">app.kontraq.ng/opportunities</div>
+      </div>
+      <div class="mf-body">
+        <div class="msb">
+          <div class="msb-logo">
+            <div class="msb-logo-mark">KQ</div>
+            <span class="msb-logo-text">Kontr<span>aq</span></span>
+          </div>
+          <div class="msb-sec">
+            <div class="msb-lbl">DISCOVER</div>
+            <div class="msb-item on"><span class="dot"></span> Opportunities</div>
+            <div class="msb-item"><span class="dot"></span> Businesses</div>
+            <div class="msb-item"><span class="dot"></span> Services</div>
+            <div class="msb-item"><span class="dot"></span> Tenders</div>
+          </div>
+          <div class="msb-sec">
+            <div class="msb-lbl">WORKSPACE</div>
+            <div class="msb-item"><span class="dot"></span> My Dashboard</div>
+            <div class="msb-item"><span class="dot"></span> My Proposals</div>
+            <div class="msb-item"><span class="dot"></span> My Deals</div>
+            <div class="msb-item"><span class="dot"></span> Messages</div>
+          </div>
+        </div>
+        <div class="mm">
+          <div class="mm-kpis">
+            <div class="mm-kpi"><div class="mm-kpi-v gold">12</div><div class="mm-kpi-l">Matches</div></div>
+            <div class="mm-kpi"><div class="mm-kpi-v">8</div><div class="mm-kpi-l">Proposals</div></div>
+            <div class="mm-kpi"><div class="mm-kpi-v grn">4</div><div class="mm-kpi-l">Active Deals</div></div>
+            <div class="mm-kpi"><div class="mm-kpi-v gold">₦840K</div><div class="mm-kpi-l">Pending</div></div>
+          </div>
+          <div class="mm-top">
+            <span class="mm-title">Live Opportunities</span>
+            <span class="mm-badge">47 New</span>
+            <div class="mm-search">⌕ Search contracts...</div>
+          </div>
+          <div class="mm-body">
+            <div class="opp-card featured">
+              <div class="opp-card-cat"><span>⚡ ENGINEERING</span><span style="color:var(--gold);font-size:8px">94% MATCH</span></div>
+              <div class="opp-card-title">Commercial Solar Installation — Ondo State</div>
+              <div class="opp-card-budget">₦3M – ₦5M</div>
+              <div class="opp-card-meta">
+                <div class="opp-card-meta-row">📍 Ondo State &nbsp;·&nbsp; 🛡 Verified</div>
+                <div class="opp-card-meta-row">⏰ Closes in 4 days</div>
+              </div>
+              <div class="opp-card-tags"><span class="opp-tag">Solar</span><span class="opp-tag">Electrical</span></div>
+              <div class="opp-card-foot"><span class="opp-proposals">12 proposals</span><button class="opp-btn">View →</button></div>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-cat">💻 ICT</div>
+              <div class="opp-card-title">School Management Software — Lagos</div>
+              <div class="opp-card-budget">₦800K – ₦1.5M</div>
+              <div class="opp-card-meta">
+                <div class="opp-card-meta-row">📍 Lagos &nbsp;·&nbsp; 🛡 Verified</div>
+                <div class="opp-card-meta-row">⏰ Closes in 7 days</div>
+              </div>
+              <div class="opp-card-tags"><span class="opp-tag">Software</span><span class="opp-tag">Education</span></div>
+              <div class="opp-card-foot"><span class="opp-proposals">8 proposals</span><button class="opp-btn">View →</button></div>
+            </div>
+            <div class="opp-card">
+              <div class="opp-card-cat">🔒 SECURITY</div>
+              <div class="opp-card-title">CCTV & Security Installation — Abuja</div>
+              <div class="opp-card-budget">₦1.5M – ₦2.5M</div>
+              <div class="opp-card-meta">
+                <div class="opp-card-meta-row">📍 Abuja &nbsp;·&nbsp; 🛡 Verified</div>
+                <div class="opp-card-meta-row">⏰ Closes in 2 days</div>
+              </div>
+              <div class="opp-card-tags"><span class="opp-tag">CCTV</span><span class="opp-tag">Security</span></div>
+              <div class="opp-card-foot"><span class="opp-proposals">6 proposals</span><button class="opp-btn">View →</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-trust-badges">
+    <div class="htb"><span class="htb-dot" style="background:#10b981"></span>Business Verified</div>
+    <div class="htb"><span class="htb-dot" style="background:#f59e0b"></span>Flutterwave Payments</div>
+    <div class="htb"><span class="htb-dot" style="background:#3b82f6"></span>Deal Protection</div>
+    <div class="htb"><span class="htb-dot" style="background:#8b5cf6"></span>AI Opportunity Matching</div>
+    <div class="htb"><span class="htb-dot" style="background:#ef4444"></span>Dispute Resolution</div>
+  </div>
+</section>
+
+<!-- ══════════ LIVE OPPORTUNITIES ══════════ -->
+<section class="opps-strip reveal" id="opportunities">
+  <div class="opps-strip-inner">
+    <div class="strip-head">
+      <div class="strip-head-left">
+        <div class="section-eyebrow">Live on the platform</div>
+        <h2>Active Business Opportunities</h2>
+      </div>
+      <div class="strip-head-right">
+        <button class="view-all-btn">View all opportunities →</button>
+        <button class="post-btn">Post an Opportunity</button>
+      </div>
+    </div>
+    <div class="opps-grid">
+      <div class="lopp reveal">
+        <div class="lopp-head"><span class="lopp-cat">⚡ Engineering</span><span class="lopp-verified">✓ Verified Client</span></div>
+        <div class="lopp-urgency">⏰ Closes in 4 days</div>
+        <div class="lopp-title">Commercial Solar Installation</div>
+        <div class="lopp-budget">₦3,000,000 – ₦5,000,000</div>
+        <div class="lopp-meta">
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">📍</span>Ondo State</div>
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">🏢</span>Commercial Building</div>
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">📋</span>Contract Duration: 45 days</div>
+        </div>
+        <div class="lopp-tags"><span class="lopp-tag">Solar Engineering</span><span class="lopp-tag">Electrical</span><span class="lopp-tag">Project Management</span></div>
+        <div class="lopp-foot"><span class="lopp-props">12 proposals received</span><button class="lopp-view">View Details</button></div>
+      </div>
+      <div class="lopp reveal reveal-d1">
+        <div class="lopp-head"><span class="lopp-cat">💻 ICT / Software</span><span class="lopp-verified">✓ Verified Client</span></div>
+        <div class="lopp-title">School Management Software Development</div>
+        <div class="lopp-budget">₦800,000 – ₦1,500,000</div>
+        <div class="lopp-meta">
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">📍</span>Lagos</div>
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">🏫</span>Private School Group</div>
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">📋</span>Contract Duration: 60 days</div>
+        </div>
+        <div class="lopp-tags"><span class="lopp-tag">Software Dev</span><span class="lopp-tag">EdTech</span><span class="lopp-tag">Web App</span></div>
+        <div class="lopp-foot"><span class="lopp-props">8 proposals received</span><button class="lopp-submit">Submit Proposal</button></div>
+      </div>
+      <div class="lopp reveal reveal-d2">
+        <div class="lopp-head"><span class="lopp-cat">🔒 Security</span><span class="lopp-verified">✓ Verified Client</span></div>
+        <div class="lopp-urgency">⏰ Closes in 2 days</div>
+        <div class="lopp-title">CCTV & Security Infrastructure Installation</div>
+        <div class="lopp-budget">₦1,500,000 – ₦2,500,000</div>
+        <div class="lopp-meta">
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">📍</span>Abuja</div>
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">🏛️</span>Government Office</div>
+          <div class="lopp-meta-row"><span class="lopp-meta-icon">📋</span>Contract Duration: 30 days</div>
+        </div>
+        <div class="lopp-tags"><span class="lopp-tag">CCTV</span><span class="lopp-tag">Networking</span><span class="lopp-tag">Security Systems</span></div>
+        <div class="lopp-foot"><span class="lopp-props">6 proposals received</span><button class="lopp-view">View Details</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HUMAN TABS ══════════ -->
+<section class="htabs-section" id="how-human">
+  <div class="htabs-inner">
+    <div class="reveal">
+      <div class="section-eyebrow">Real businesses. Real results.</div>
+      <h2 class="section-h2">How Nigerian entrepreneurs win on Kontraq</h2>
+      <p class="section-sub">From Okitipupa to Lagos to Abuja — businesses of every size are finding clients and closing contracts.</p>
+    </div>
+    <div class="human-tabs-row" id="htabs-row">
+      <div class="htab on" onclick="switchHTAB(0,this)">
+        <div class="htab-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AT</div>
+        <div class="htab-info"><div class="htab-name">Engr. Adetoye</div><div class="htab-role">Electrical & Solar Engineer, Okitipupa</div></div>
+        <div class="htab-prog"></div>
+      </div>
+      <div class="htab" onclick="switchHTAB(1,this)">
+        <div class="htab-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">KA</div>
+        <div class="htab-info"><div class="htab-name">Kehinde Adeyemi</div><div class="htab-role">ICT Contractor, Lagos</div></div>
+        <div class="htab-prog"></div>
+      </div>
+      <div class="htab" onclick="switchHTAB(2,this)">
+        <div class="htab-av" style="background:linear-gradient(135deg,#10b981,#059669)">FM</div>
+        <div class="htab-info"><div class="htab-name">Funmilayo Makinde</div><div class="htab-role">Procurement Manager, Abuja</div></div>
+        <div class="htab-prog"></div>
+      </div>
+      <div class="htab" onclick="switchHTAB(3,this)">
+        <div class="htab-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">OT</div>
+        <div class="htab-info"><div class="htab-name">Olumide Taiwo</div><div class="htab-role">Construction Company, Port Harcourt</div></div>
+        <div class="htab-prog"></div>
+      </div>
+    </div>
+    <div class="htab-panels">
+      <!-- Panel 0 -->
+      <div class="htab-panel on" id="htp-0">
+        <div>
+          <div class="hpanel-person">
+            <div class="hpanel-av" style="background:linear-gradient(135deg,#f59e0b,#d97706)">AT</div>
+            <div>
+              <div class="hpanel-quote">"I posted my profile on Kontraq and within 3 days had a ₦4.2M solar installation contract from a school in Akure. The AI matched me based on my certifications and portfolio. No cold calls, no middlemen."</div>
+              <div class="hpanel-who">— Engr. Adetoye Austine · Rehoteq Technologies · Okitipupa, Ondo State</div>
+            </div>
+          </div>
+          <ul class="hpanel-list">
+            <li><div class="hpanel-check">✓</div>AI matches your business profile to relevant opportunities automatically</li>
+            <li><div class="hpanel-check">✓</div>Submit structured proposals with portfolio, pricing, and milestones</li>
+            <li><div class="hpanel-check">✓</div>Trust Score shows clients your track record — no verbal assurances needed</li>
+            <li><div class="hpanel-check">✓</div>Deal Room manages the entire contract from acceptance to payment</li>
+          </ul>
+          <button class="hpanel-cta">Find opportunities like this →</button>
+        </div>
+        <div class="hpanel-screen">
+          <div class="hps-bar"><div class="hps-dot" style="background:#ff5f57"></div><div class="hps-dot" style="background:#febc2e"></div><div class="hps-dot" style="background:#28ca41"></div></div>
+          <div class="hps-body">
+            <div class="hps-label">▸ AI MATCHES · REHOTEQ TECHNOLOGIES</div>
+            <div class="hps-opp">
+              <div class="hps-opp-title">Commercial Solar Installation — Ondo State</div>
+              <div class="hps-opp-budget">₦3M – ₦5M</div>
+              <div class="hps-opp-meta"><span>📍 Ondo State</span><span>🛡 Verified Client</span><span>⏰ 4 days left</span></div>
+              <div class="hps-opp-foot"><span class="hps-match">94% MATCH</span><button class="hps-btn">Submit Proposal</button></div>
+            </div>
+            <div class="hps-opp">
+              <div class="hps-opp-title">Hospital Electrical Rewiring — Akure</div>
+              <div class="hps-opp-budget">₦1.8M – ₦2.5M</div>
+              <div class="hps-opp-meta"><span>📍 Akure</span><span>🛡 Verified</span><span>⏰ 9 days</span></div>
+              <div class="hps-opp-foot"><span class="hps-match">89% MATCH</span><button class="hps-btn">Submit Proposal</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 1 -->
+      <div class="htab-panel" id="htp-1">
+        <div>
+          <div class="hpanel-person">
+            <div class="hpanel-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)">KA</div>
+            <div>
+              <div class="hpanel-quote">"As an ICT contractor, Kontraq gave me access to government and school tenders I never knew existed. The verification system gave my clients confidence to award contracts worth millions."</div>
+              <div class="hpanel-who">— Kehinde Adeyemi · ICT Infrastructure · Lagos</div>
+            </div>
+          </div>
+          <ul class="hpanel-list">
+            <li><div class="hpanel-check">✓</div>Access government tenders, NGO procurement, and corporate contracts</li>
+            <li><div class="hpanel-check">✓</div>Business verification increases proposal acceptance rate by 3x</li>
+            <li><div class="hpanel-check">✓</div>Structured proposal templates win more contracts</li>
+            <li><div class="hpanel-check">✓</div>Milestone-based payments protect both parties</div></li>
+          </ul>
+          <button class="hpanel-cta">Post your business profile →</button>
+        </div>
+        <div class="hpanel-screen">
+          <div class="hps-bar"><div class="hps-dot" style="background:#ff5f57"></div><div class="hps-dot" style="background:#febc2e"></div><div class="hps-dot" style="background:#28ca41"></div></div>
+          <div class="hps-body">
+            <div class="hps-label">▸ TENDER OPPORTUNITIES · ICT</div>
+            <div class="hps-opp">
+              <div class="hps-opp-title">State School ICT Infrastructure — Ondo</div>
+              <div class="hps-opp-budget">₦2M – ₦4M</div>
+              <div class="hps-opp-meta"><span>🏛️ Government</span><span>🛡 Verified</span><span>⏰ 14 days</span></div>
+              <div class="hps-opp-foot"><span class="hps-match">91% MATCH</span><button class="hps-btn">View Tender</button></div>
+            </div>
+            <div class="hps-opp">
+              <div class="hps-opp-title">Corporate Network Setup — Lagos</div>
+              <div class="hps-opp-budget">₦900K – ₦1.5M</div>
+              <div class="hps-opp-meta"><span>🏢 Corporate</span><span>🛡 Verified</span><span>⏰ 6 days</span></div>
+              <div class="hps-opp-foot"><span class="hps-match">87% MATCH</span><button class="hps-btn">Submit Proposal</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 2 -->
+      <div class="htab-panel" id="htp-2">
+        <div>
+          <div class="hpanel-person">
+            <div class="hpanel-av" style="background:linear-gradient(135deg,#10b981,#059669)">FM</div>
+            <div>
+              <div class="hpanel-quote">"Finding verified contractors used to take weeks of phone calls and referrals. Now I post on Kontraq and receive qualified, structured proposals within 48 hours. The Trust Score tells me everything I need to know."</div>
+              <div class="hpanel-who">— Funmilayo Makinde · Procurement Manager · Abuja</div>
+            </div>
+          </div>
+          <ul class="hpanel-list">
+            <li><div class="hpanel-check">✓</div>Post opportunities and receive structured proposals within hours</li>
+            <li><div class="hpanel-check">✓</div>Trust Scores give instant visibility into contractor track records</li>
+            <li><div class="hpanel-check">✓</div>Compare proposals side by side — budget, timeline, approach</li>
+            <li><div class="hpanel-check">✓</div>Deal Room manages contracts, milestones, payments and documents</li>
+          </ul>
+          <button class="hpanel-cta">Post an opportunity →</button>
+        </div>
+        <div class="hpanel-screen">
+          <div class="hps-bar"><div class="hps-dot" style="background:#ff5f57"></div><div class="hps-dot" style="background:#febc2e"></div><div class="hps-dot" style="background:#28ca41"></div></div>
+          <div class="hps-body">
+            <div class="hps-label">▸ PROPOSALS RECEIVED · 17 TOTAL</div>
+            <div class="hps-opp" style="border-color:rgba(245,158,11,.2)">
+              <div class="hps-opp-title">Rehoteq Technologies · ⭐ 4.9 · Trust Score: 94</div>
+              <div class="hps-opp-budget">₦3,800,000</div>
+              <div class="hps-opp-meta"><span>✓ Verified</span><span>27 contracts</span><span>96% completion</span></div>
+              <div class="hps-opp-foot"><span class="hps-match" style="background:rgba(245,158,11,.1);color:var(--gold)">SHORTLISTED</span><button class="hps-btn">View Proposal</button></div>
+            </div>
+            <div class="hps-opp">
+              <div class="hps-opp-title">SolarPro Nigeria · ⭐ 4.7 · Trust Score: 88</div>
+              <div class="hps-opp-budget">₦4,200,000</div>
+              <div class="hps-opp-meta"><span>✓ Verified</span><span>19 contracts</span></div>
+              <div class="hps-opp-foot"><span style="font-size:9px;color:rgba(255,255,255,.3)">Under review</span><button class="hps-btn">View Proposal</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 3 -->
+      <div class="htab-panel" id="htp-3">
+        <div>
+          <div class="hpanel-person">
+            <div class="hpanel-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">OT</div>
+            <div>
+              <div class="hpanel-quote">"Our construction company was invisible online. Kontraq gave us a verified profile, showcased our portfolio and connected us to a ₦18M government contract in Rivers State. The platform is serious business infrastructure."</div>
+              <div class="hpanel-who">— Olumide Taiwo · Taiwo Construction Ltd · Port Harcourt</div>
+            </div>
+          </div>
+          <ul class="hpanel-list">
+            <li><div class="hpanel-check">✓</div>Professional business profile with portfolio, reviews and Trust Score</li>
+            <li><div class="hpanel-check">✓</div>Business verification builds instant credibility with clients</li>
+            <li><div class="hpanel-check">✓</div>Completed deals build your reputation automatically</li>
+            <li><div class="hpanel-check">✓</div>Win bigger contracts as your Trust Score grows</li>
+          </ul>
+          <button class="hpanel-cta">Build your business profile →</button>
+        </div>
+        <div class="hpanel-screen">
+          <div class="hps-bar"><div class="hps-dot" style="background:#ff5f57"></div><div class="hps-dot" style="background:#febc2e"></div><div class="hps-dot" style="background:#28ca41"></div></div>
+          <div class="hps-body">
+            <div class="hps-label">▸ BUSINESS PROFILE · TAIWO CONSTRUCTION</div>
+            <div class="hps-opp" style="border-color:rgba(139,92,246,.2)">
+              <div class="hps-opp-title">Taiwo Construction Ltd · ⭐ 4.8</div>
+              <div class="hps-opp-budget" style="font-size:12px;color:rgba(255,255,255,.5);font-family:'Inter',sans-serif;font-weight:500">Construction · Civil Engineering · Abuja</div>
+              <div class="hps-opp-meta">
+                <span>✓ Verified Business</span>
+                <span>Trust Score: 91</span>
+              </div>
+              <div class="hps-opp-meta" style="margin-top:6px">
+                <span>34 contracts</span>
+                <span>₦47M deal value</span>
+                <span>97% completion</span>
+              </div>
+              <div class="hps-opp-foot" style="margin-top:10px"><span class="hps-match" style="background:rgba(139,92,246,.1);color:#a78bfa">VERIFIED ✓</span><button class="hps-btn">View Profile</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ HOW IT WORKS ══════════ -->
+<section class="how-section reveal" id="how">
+  <div class="how-orb"></div>
+  <div class="how-inner">
+    <div class="how-header">
+      <div class="section-eyebrow" style="color:var(--gold)">The Kontraq Journey</div>
+      <h2 class="section-h2" style="color:var(--white)">From opportunity to closed deal</h2>
+      <p class="section-sub" style="color:rgba(255,255,255,.4);margin:12px auto 0;max-width:500px">Every transaction on Kontraq follows a structured, protected journey — from discovery to payment.</p>
+    </div>
+    <div class="how-steps">
+      <div class="how-step reveal">
+        <div class="how-step-num how-step-n1"><div class="how-step-icon">🔍</div></div>
+        <div class="how-step-label ls-gold">01 — FIND</div>
+        <div class="how-step-title">Discover Opportunities</div>
+        <div class="how-step-body">Browse verified contracts, tenders and projects. AI matches opportunities to your business profile, skills and location automatically.</div>
+        <div class="how-features" style="margin-top:16px">
+          <div class="how-feat ls-gold-feat">AI Matching</div>
+          <div class="how-feat ls-gold-feat">Smart Filters</div>
+          <div class="how-feat ls-gold-feat">Location Search</div>
+          <div class="how-feat ls-gold-feat">Saved Alerts</div>
+          <div class="how-feat ls-gold-feat">Category Browse</div>
+          <div class="how-feat ls-gold-feat">Budget Filter</div>
+        </div>
+      </div>
+      <div class="how-step reveal reveal-d1">
+        <div class="how-step-num how-step-n2"><div class="how-step-icon">🤝</div></div>
+        <div class="how-step-label ls-blue">02 — CONNECT</div>
+        <div class="how-step-title">Propose & Negotiate</div>
+        <div class="how-step-body">Submit structured proposals with your portfolio, pricing, milestones and timeline. Communicate securely. Negotiate terms professionally.</div>
+        <div class="how-features" style="margin-top:16px">
+          <div class="how-feat ls-blue-feat">Proposal Builder</div>
+          <div class="how-feat ls-blue-feat">Secure Messaging</div>
+          <div class="how-feat ls-blue-feat">Portfolio Attach</div>
+          <div class="how-feat ls-blue-feat">Milestone Plan</div>
+          <div class="how-feat ls-blue-feat">Price Negotiation</div>
+          <div class="how-feat ls-blue-feat">Document Share</div>
+        </div>
+      </div>
+      <div class="how-step reveal reveal-d2">
+        <div class="how-step-num how-step-n3"><div class="how-step-icon">✅</div></div>
+        <div class="how-step-label ls-grn">03 — CLOSE</div>
+        <div class="how-step-title">Contract & Get Paid</div>
+        <div class="how-step-body">Digital contracts, milestone tracking, payment protection and completion reviews — all inside your Deal Room. Business done properly.</div>
+        <div class="how-features" style="margin-top:16px">
+          <div class="how-feat ls-grn-feat">Digital Contract</div>
+          <div class="how-feat ls-grn-feat">Milestone Payments</div>
+          <div class="how-feat ls-grn-feat">Deal Room</div>
+          <div class="how-feat ls-grn-feat">Dispute Resolution</div>
+          <div class="how-feat ls-grn-feat">Invoice Generation</div>
+          <div class="how-feat ls-grn-feat">Reputation Build</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ TRUST ══════════ -->
+<section class="trust-section reveal" id="trust">
+  <div class="trust-inner">
+    <div class="trust-left">
+      <div class="section-eyebrow">Platform Trust</div>
+      <h2 class="section-h2">The Trust Score — our signature feature</h2>
+      <p class="section-sub">Every business on Kontraq earns a dynamic Trust Score built from verified data — not self-reported claims. Clients know exactly who they're dealing with.</p>
+      <div class="trust-score-card">
+        <div class="tsc-head">
+          <div class="tsc-biz">
+            <div class="tsc-biz-av">RT</div>
+            <div>
+              <div class="tsc-biz-name">Rehoteq Technologies</div>
+              <div class="tsc-biz-type">⭐ 4.9 · Electrical & Solar · Okitipupa</div>
+            </div>
+          </div>
+          <div class="tsc-score">
+            <div class="tsc-score-num">94</div>
+            <div class="tsc-score-label">TRUST SCORE</div>
+          </div>
+        </div>
+        <div class="tsc-rows">
+          <div class="tsc-row"><span class="tsc-row-label">Business Verification</span><div class="tsc-row-bar"><div class="tsc-row-fill" style="width:100%"></div></div><span class="tsc-row-check">✓</span></div>
+          <div class="tsc-row"><span class="tsc-row-label">Identity Verified</span><div class="tsc-row-bar"><div class="tsc-row-fill" style="width:100%"></div></div><span class="tsc-row-check">✓</span></div>
+          <div class="tsc-row"><span class="tsc-row-label">Portfolio Verified</span><div class="tsc-row-bar"><div class="tsc-row-fill" style="width:100%"></div></div><span class="tsc-row-check">✓</span></div>
+          <div class="tsc-row"><span class="tsc-row-label">Completion Rate</span><div class="tsc-row-bar"><div class="tsc-row-fill" style="width:96%"></div></div><span class="tsc-row-val">96%</span></div>
+          <div class="tsc-row"><span class="tsc-row-label">Client Rating</span><div class="tsc-row-bar"><div class="tsc-row-fill" style="width:98%"></div></div><span class="tsc-row-val">4.9</span></div>
+          <div class="tsc-row"><span class="tsc-row-label">Response Rate</span><div class="tsc-row-bar"><div class="tsc-row-fill" style="width:94%"></div></div><span class="tsc-row-val">94%</span></div>
+          <div class="tsc-row"><span class="tsc-row-label">Dispute History</span><div class="tsc-row-bar"><div class="tsc-row-fill" style="width:99%"></div></div><span class="tsc-row-check" style="color:var(--gold)">Excellent</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="trust-right reveal">
+      <div class="trust-stat"><div class="trust-stat-icon" style="background:var(--goldl)">🛡️</div><div><div class="trust-stat-val">Business Verified ✓</div><div class="trust-stat-label">CAC registration and business identity confirmed</div></div></div>
+      <div class="trust-stat reveal-d1"><div class="trust-stat-icon" style="background:var(--grnl)">📋</div><div><div class="trust-stat-val">Contract History</div><div class="trust-stat-label">Every completed deal builds your verifiable track record</div></div></div>
+      <div class="trust-stat reveal-d2"><div class="trust-stat-icon" style="background:var(--bluel)">⭐</div><div><div class="trust-stat-val">Verified Client Reviews</div><div class="trust-stat-label">Only clients with completed contracts can leave reviews</div></div></div>
+      <div class="trust-stat reveal-d3"><div class="trust-stat-icon" style="background:rgba(239,68,68,.1)">⚖️</div><div><div class="trust-stat-val">Dispute Resolution</div><div class="trust-stat-label">Structured dispute process protects both parties fairly</div></div></div>
+      <div class="trust-stat"><div class="trust-stat-icon" style="background:rgba(245,158,11,.1)">💳</div><div><div class="trust-stat-val">Payment Protection</div><div class="trust-stat-label">Milestone-based payments via Flutterwave — secured and tracked</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ BENTO FEATURES ══════════ -->
+<section class="bento-section" id="features">
+  <div class="bento-inner">
+    <div class="bento-header reveal">
+      <div class="section-eyebrow" style="color:var(--gold)">Platform Features</div>
+      <h2 class="section-h2" style="color:var(--white)">Everything serious business needs</h2>
+    </div>
+    <div class="bento-grid">
+      <div class="bc wide reveal">
+        <div class="bc-glow" style="background:radial-gradient(circle,rgba(245,158,11,.4),transparent)"></div>
+        <div class="bc-icon" style="background:var(--goldl)">🔍</div>
+        <div class="bc-title">Opportunity Marketplace</div>
+        <div class="bc-body">Browse thousands of contracts, tenders, procurement opportunities, and projects. Powerful filters by budget, location, industry, deadline and client verification status. Save searches and receive instant alerts.</div>
+        <div class="bc-visual">
+          <div class="bc-tags">
+            <span class="bc-tag" style="background:var(--goldl);color:var(--gold2)">Contracts</span>
+            <span class="bc-tag" style="background:rgba(59,130,246,.1);color:var(--blue)">Tenders</span>
+            <span class="bc-tag" style="background:var(--grnl);color:var(--grn)">Procurement</span>
+            <span class="bc-tag" style="background:rgba(139,92,246,.1);color:#8b5cf6">Partnerships</span>
+            <span class="bc-tag" style="background:rgba(239,68,68,.1);color:var(--red)">Projects</span>
+            <span class="bc-tag" style="background:rgba(245,158,11,.08);color:var(--gold3)">Services</span>
+          </div>
+        </div>
+      </div>
+      <div class="bc reveal reveal-d1">
+        <div class="bc-glow" style="background:radial-gradient(circle,rgba(16,185,129,.35),transparent)"></div>
+        <div class="bc-icon" style="background:var(--grnl)">🏛️</div>
+        <div class="bc-title">Deal Room</div>
+        <div class="bc-body">When a proposal is accepted, a private Deal Room opens. Manage contracts, milestones, documents, payments and communication — all in one protected space.</div>
+        <div class="bc-visual">
+          <div class="bc-mini-deal">
+            <div class="bc-mini-deal-head"><span class="bc-mini-deal-title">Rehoteq ↔ ABC School</span><span class="bc-mini-deal-val">₦1.2M</span></div>
+            <div class="bc-mini-milestones">
+              <div class="bc-ms"><div class="bc-ms-dot" style="background:var(--grn)"></div><span style="flex:1">Requirements</span><div class="bc-ms-bar"><div class="bc-ms-fill" style="width:100%;background:var(--grn)"></div></div><span class="bc-ms-val">✓ ₦200K</span></div>
+              <div class="bc-ms"><div class="bc-ms-dot" style="background:var(--gold)"></div><span style="flex:1">Development</span><div class="bc-ms-bar"><div class="bc-ms-fill" style="width:65%;background:var(--gold)"></div></div><span class="bc-ms-val">₦500K</span></div>
+              <div class="bc-ms"><div class="bc-ms-dot" style="background:rgba(255,255,255,.2)"></div><span style="flex:1">Deployment</span><div class="bc-ms-bar"><div class="bc-ms-fill" style="width:0%"></div></div><span class="bc-ms-val">₦300K</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bc reveal">
+        <div class="bc-glow" style="background:radial-gradient(circle,rgba(59,130,246,.35),transparent)"></div>
+        <div class="bc-icon" style="background:var(--bluel)">🤖</div>
+        <div class="bc-title">AI Opportunity Matching</div>
+        <div class="bc-body">Our AI reads your business profile, certifications, portfolio and location — then surfaces opportunities with the highest probability of success. Updated daily.</div>
+      </div>
+      <div class="bc reveal reveal-d1">
+        <div class="bc-glow" style="background:radial-gradient(circle,rgba(139,92,246,.3),transparent)"></div>
+        <div class="bc-icon" style="background:rgba(139,92,246,.1)">💬</div>
+        <div class="bc-title">Secure Business Messaging</div>
+        <div class="bc-body">Professional messaging linked to specific opportunities, proposals and deals. Full conversation history. File sharing. Never lose a business discussion again.</div>
+      </div>
+      <div class="bc reveal">
+        <div class="bc-glow" style="background:radial-gradient(circle,rgba(245,158,11,.3),transparent)"></div>
+        <div class="bc-icon" style="background:var(--goldl)">📄</div>
+        <div class="bc-title">Proposal Builder</div>
+        <div class="bc-body">Structured proposal templates that present your business professionally. Portfolio, pricing, milestones, timeline, approach — everything a client needs to say yes.</div>
+      </div>
+      <div class="bc reveal reveal-d1">
+        <div class="bc-glow" style="background:radial-gradient(circle,rgba(16,185,129,.3),transparent)"></div>
+        <div class="bc-icon" style="background:var(--grnl)">💳</div>
+        <div class="bc-title">Flutterwave Payments</div>
+        <div class="bc-body">Milestone-based payments in naira — card, bank transfer, USSD, mobile money. Payment history builds your Trust Score automatically. Invoices generated instantly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section class="pricing-section reveal" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header">
+      <div class="section-eyebrow">Pricing</div>
+      <h2 class="section-h2">Built for every Nigerian business</h2>
+      <p style="font-size:14px;color:var(--slate2);margin-top:8px">Start free. Upgrade as you grow. Pay in naira via Flutterwave.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pc-light reveal">
+        <div class="pc-plan-name">Free</div>
+        <div class="pc-price-val">₦0</div><div class="pc-price-per">/month</div>
+        <div class="pc-credits">5 proposals/month</div>
+        <ul class="pc-feats">
+          <li><span class="pc-check">✓</span>Business profile</li>
+          <li><span class="pc-check">✓</span>Browse opportunities</li>
+          <li><span class="pc-check">✓</span>5 proposals/month</li>
+          <li><span class="pc-check">✓</span>Basic messaging</li>
+        </ul>
+        <button class="pc-btn pc-btn-o">Get started free</button>
+      </div>
+      <div class="pc-light reveal reveal-d1">
+        <div class="pc-plan-name">Professional</div>
+        <div class="pc-price-val">₦5,000</div><div class="pc-price-per">/month</div>
+        <div class="pc-credits">25 proposals/month</div>
+        <ul class="pc-feats">
+          <li><span class="pc-check">✓</span>Everything in Free</li>
+          <li><span class="pc-check">✓</span>AI opportunity matching</li>
+          <li><span class="pc-check">✓</span>Deal Room access</li>
+          <li><span class="pc-check">✓</span>Portfolio showcase</li>
+          <li><span class="pc-check">✓</span>Analytics dashboard</li>
+        </ul>
+        <button class="pc-btn pc-btn-o">Subscribe</button>
+      </div>
+      <div class="pc-light pop reveal reveal-d2">
+        <div class="pc-pop-badge">Most popular</div>
+        <div class="pc-plan-name">Business</div>
+        <div class="pc-price-val">₦15,000</div><div class="pc-price-per">/month</div>
+        <div class="pc-credits">Unlimited proposals</div>
+        <ul class="pc-feats">
+          <li><span class="pc-check">✓</span>Everything in Professional</li>
+          <li><span class="pc-check">✓</span>Verified business badge</li>
+          <li><span class="pc-check">✓</span>Priority opportunity alerts</li>
+          <li><span class="pc-check">✓</span>Team accounts (3 seats)</li>
+          <li><span class="pc-check">✓</span>Invoice generation</li>
+          <li><span class="pc-check">✓</span>Featured profile listing</li>
+        </ul>
+        <button class="pc-btn pc-btn-f">Subscribe</button>
+      </div>
+      <div class="pc-light reveal reveal-d3">
+        <div class="pc-plan-name">Enterprise</div>
+        <div class="pc-price-val">₦40,000</div><div class="pc-price-per">/month</div>
+        <div class="pc-credits">Full platform access</div>
+        <ul class="pc-feats">
+          <li><span class="pc-check">✓</span>Everything in Business</li>
+          <li><span class="pc-check">✓</span>Unlimited team seats</li>
+          <li><span class="pc-check">✓</span>Procurement module</li>
+          <li><span class="pc-check">✓</span>API access</li>
+          <li><span class="pc-check">✓</span>Dedicated support</li>
+          <li><span class="pc-check">✓</span>White-label reports</li>
+        </ul>
+        <button class="pc-btn pc-btn-o">Contact sales</button>
+      </div>
+    </div>
+    <div class="flw-note"><span class="flw-ico">F</span> Powered by Flutterwave — Card · Bank Transfer · USSD · Mobile Money · All in ₦</div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="faq-section">
+  <div class="faq-inner">
+    <div class="faq-header reveal">
+      <div class="section-eyebrow">FAQ</div>
+      <h2 class="section-h2">Questions about Kontraq</h2>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">What is Kontraq and who is it for? <span class="faq-icon">+</span></div><div class="faq-a">Kontraq is Nigeria's Business Opportunity Network — a platform where entrepreneurs, SMEs, contractors, and service providers discover real contracts and tenders, while organizations find verified businesses to work with. It covers engineering, ICT, construction, security, education technology, and more across Nigeria.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">How is Kontraq different from a freelance marketplace? <span class="faq-icon">+</span></div><div class="faq-a">Kontraq is built for serious business contracts — not task-based freelancing. It supports structured proposals, digital contracts, milestone-based payments, deal rooms, business verification, and Trust Scores. The platform is designed for contracts worth hundreds of thousands to hundreds of millions of naira.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">What is the Trust Score? <span class="faq-icon">+</span></div><div class="faq-a">The Trust Score is a dynamic score (0–100) calculated from your business verification status, completed contract history, client ratings, response rate, and dispute record. It is not a government certification — it is a platform-generated reputation metric based on verified platform activity. It helps clients assess contractors with confidence.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">How does the Deal Room work? <span class="faq-icon">+</span></div><div class="faq-a">When a client accepts your proposal, a Deal Room is automatically created. Inside, both parties manage the digital contract, milestone progress, secure messaging, documents, and milestone-based payments — all in one protected, auditable space.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">How do payments work? <span class="faq-icon">+</span></div><div class="faq-a">Payments on Kontraq are processed via Flutterwave in naira — supporting card, bank transfer, USSD and mobile money. Payments are released milestone by milestone as work is confirmed, protecting both the client and the contractor. Full payment history builds your Trust Score automatically.</div></div>
+    <div class="faq-item" onclick="this.classList.toggle('open')"><div class="faq-q">Is Kontraq only for Nigerian businesses? <span class="faq-icon">+</span></div><div class="faq-a">Kontraq starts in Nigeria and is being built to expand across West Africa and the broader African continent. Opportunities are available across Nigeria — Ondo, Lagos, Abuja, Port Harcourt, Kano, and beyond. Remote and nationwide opportunities are clearly marked.</div></div>
+  </div>
+</section>
+
+<!-- ══════════ CLOSE CTA ══════════ -->
+<section class="cta-section" id="cta">
+  <div class="cta-glow"></div>
+  <h2>Your next contract<br>is already on <span class="gold-text">Kontraq.</span></h2>
+  <p>Free to join. Opportunities waiting. Business starts here.</p>
+  <div class="cta-acts">
+    <button class="hbtn-p">Find Opportunities Now →</button>
+    <button class="hbtn-s">Post an Opportunity</button>
+  </div>
+  <div class="cta-note">No credit card required · Free plan available · Pay in ₦ via Flutterwave</div>
+</section>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer class="footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-logo">
+        <div class="nav-logo-mark">KQ</div>
+        <span class="nav-logo-text">Kontr<span>aq</span></span>
+      </div>
+      <div class="footer-brand-desc">Nigeria's Business Opportunity Network. Find clients, win contracts, build business — from one trusted platform.</div>
+      <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+        <div class="htb" style="font-size:10px;padding:4px 10px"><span class="htb-dot" style="background:var(--gold)"></span>Built in Nigeria</div>
+        <div class="htb" style="font-size:10px;padding:4px 10px"><span class="htb-dot" style="background:var(--grn)"></span>Flutterwave Payments</div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Discover</div>
+      <a>Opportunities</a><a>Businesses</a><a>Services</a><a>Tenders</a><a>Partnerships</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Platform</div>
+      <a>How it works</a><a>Trust Score</a><a>Deal Room</a><a>Pricing</a><a>AI Matching</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a>About Kontraq</a><a href="https://rehoteq.com" target="_blank">Rehoteq Technologies</a><a>Privacy Policy</a><a>Terms of Service</a><a>Contact</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 Kontraq · Built by Rehoteq Technologies · Okitipupa, Ondo State, Nigeria</div>
+    <div class="footer-bottom-links">
+      <a>Privacy</a><a>Terms</a><a>Security</a><a>Support</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── CANVAS PARTICLES ───────────────────────
+(function(){
+  const c=document.getElementById('bg-canvas');
+  const ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  for(let i=0;i<70;i++){
+    pts.push({
+      x:Math.random()*2000,y:Math.random()*1000,
+      vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.18,
+      r:Math.random()*1.4+.4,
+      col:Math.random()<.6?'245,158,11':'59,130,246'
+    });
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(${p.col},.25)`;ctx.fill();
+    });
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<130){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(245,158,11,${.06*(1-d/130)})`;ctx.lineWidth=.5;ctx.stroke()}
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ── NAV SCROLL ──────────────────────────
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>50)});
+
+// ── SCROLL REVEAL ────────────────────────
+const ro=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// ── HUMAN TABS ───────────────────────────
+let htIdx=0,htTimer=null;
+function switchHTAB(i,el){
+  htIdx=i;
+  for(let k=0;k<4;k++){
+    document.getElementById('htp-'+k).classList.toggle('on',k===i);
+  }
+  document.querySelectorAll('.htab').forEach((t,j)=>{
+    t.classList.toggle('on',j===i);
+    const p=t.querySelector('.htab-prog');
+    p.style.animation='none';p.offsetHeight;p.style.animation='';
+  });
+  clearInterval(htTimer);htTimer=setInterval(autoHTAB,4500);
+}
+function autoHTAB(){htIdx=(htIdx+1)%4;switchHTAB(htIdx,document.querySelectorAll('.htab')[htIdx])}
+const hto=new IntersectionObserver(es=>{if(es[0].isIntersecting){htTimer=setInterval(autoHTAB,4500);hto.disconnect()}},{threshold:.3});
+hto.observe(document.getElementById('htabs-row'));
+
+// ── STATS COUNT UP ────────────────────────
+function countUp(el,target,prefix,suffix,dur=1600){
+  let c=0;const step=target/70;
+  const t=setInterval(()=>{c=Math.min(c+step,target);el.textContent=prefix+Math.floor(c).toLocaleString()+suffix;if(c>=target)clearInterval(t)},20);
+}
+const sro=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      // could hook into stat elements here
+    }
+  });
+},{threshold:.3});
+</script>
+</body>
+</html>
