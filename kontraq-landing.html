@@ -274,14 +274,20 @@ a{text-decoration:none}
 .how-header .section-h2{color:var(--white)}
 .how-header .section-sub{color:rgba(255,255,255,.45);margin:12px auto 0}
 .how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:0;position:relative}
-.how-steps::before{content:'';position:absolute;top:40px;left:16.67%;right:16.67%;height:1px;background:linear-gradient(90deg,transparent,rgba(245,158,11,.3),rgba(245,158,11,.3),transparent);z-index:0}
-.how-step{text-align:center;padding:0 32px;position:relative;z-index:1}
-.how-step-num{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin:0 auto 24px;position:relative}
+.how-steps::before{display:none}
+.how-step{text-align:center;padding:0 18px;position:relative;z-index:1}
+.how-step-photo{position:relative;border-radius:14px;overflow:hidden;margin-bottom:22px;aspect-ratio:16/10;background:var(--void3);border:1px solid rgba(255,255,255,.07);box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.how-step-photo img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.95) contrast(1.02);transition:transform .5s cubic-bezier(.22,1,.36,1)}
+.how-step:hover .how-step-photo img{transform:scale(1.045)}
+.how-step-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,15,.82) 0%,rgba(6,8,15,.15) 55%,transparent 100%)}
+.how-step-photo-tag{position:absolute;left:12px;bottom:11px;z-index:2;display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;background:rgba(6,8,15,.6);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#fff}
+.how-step-photo-tag i{width:5px;height:5px;border-radius:50%;flex-shrink:0;font-style:normal}
+.how-step-num{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:28px;font-weight:800;margin:-54px auto 20px;position:relative;z-index:3;background-color:var(--void2);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .how-step-num::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:1px solid rgba(245,158,11,.2)}
 .how-step-n1{background:linear-gradient(135deg,rgba(245,158,11,.15),rgba(245,158,11,.05));color:var(--gold);border:1px solid rgba(245,158,11,.25)}
 .how-step-n2{background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(59,130,246,.04));color:var(--blue);border:1px solid rgba(59,130,246,.2)}
 .how-step-n3{background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(16,185,129,.04));color:var(--grn);border:1px solid rgba(16,185,129,.2)}
-.how-step-icon{font-size:28px}
+.how-step-icon{font-size:24px}
 .how-step-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
 .ls-gold{color:var(--gold)}.ls-blue{color:var(--blue)}.ls-grn{color:var(--grn)}
 .how-step-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--white);margin-bottom:10px;letter-spacing:-.3px}
@@ -303,7 +309,8 @@ a{text-decoration:none}
 .trust-score-card{background:var(--white);border:1px solid var(--bdr);border-radius:16px;padding:28px;box-shadow:0 4px 24px rgba(0,0,0,.04)}
 .tsc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .tsc-biz{display:flex;align-items:center;gap:12px}
-.tsc-biz-av{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold2));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--void)}
+.tsc-biz-av{width:48px;height:48px;border-radius:12px;overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:var(--void);background:#e8eaef;box-shadow:0 0 0 2px rgba(245,158,11,.35)}
+.tsc-biz-av img{width:100%;height:100%;object-fit:cover;display:block}
 .tsc-biz-name{font-size:14px;font-weight:700;color:var(--tx);letter-spacing:-.3px}
 .tsc-biz-type{font-size:11px;color:var(--slate2);margin-top:2px}
 .tsc-score{text-align:center}
@@ -380,6 +387,30 @@ a{text-decoration:none}
 /* ═══════════════════════════════
    FAQ
 ═══════════════════════════════ */
+/* ═══════════════════════════════
+   FACES / COMMUNITY MARQUEE
+═══════════════════════════════ */
+.faces-section{background:var(--void);padding:86px 0 90px;position:relative;overflow:hidden;z-index:1;border-top:1px solid rgba(255,255,255,.06)}
+.faces-head{text-align:center;max-width:620px;margin:0 auto 44px;padding:0 24px}
+.faces-head .section-h2{color:var(--white)}
+.faces-head .section-sub{color:rgba(255,255,255,.45);margin:12px auto 0}
+.faces-viewport{position:relative;width:100%;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.faces-track{display:flex;gap:16px;width:max-content;animation:facesScroll 46s linear infinite}
+.faces-viewport:hover .faces-track{animation-play-state:paused}
+@keyframes facesScroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 8px))}}
+.face-card{position:relative;width:214px;flex-shrink:0;border-radius:14px;overflow:hidden;background:var(--void3);border:1px solid rgba(255,255,255,.08);aspect-ratio:3/4;transition:border-color .25s,transform .25s}
+.face-card:hover{border-color:rgba(245,158,11,.4);transform:translateY(-4px)}
+.face-card img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(.35) contrast(1.02);transition:filter .35s}
+.face-card:hover img{filter:grayscale(0)}
+.face-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(6,8,15,.93) 4%,rgba(6,8,15,.45) 42%,transparent 70%)}
+.face-meta{position:absolute;left:14px;right:14px;bottom:13px;z-index:2;text-align:left}
+.face-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;letter-spacing:-.2px;line-height:1.2}
+.face-role{font-size:11px;color:rgba(255,255,255,.62);margin-top:3px;line-height:1.35}
+.face-loc{display:inline-flex;align-items:center;gap:4px;margin-top:7px;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);background:rgba(245,158,11,.13);border:1px solid rgba(245,158,11,.25);border-radius:999px;padding:3px 8px}
+.faces-foot{text-align:center;margin-top:42px;font-size:13px;color:rgba(255,255,255,.4);padding:0 24px}
+.faces-foot strong{color:rgba(255,255,255,.8)}
+@media(prefers-reduced-motion:reduce){.faces-track{animation:none}.faces-viewport{overflow-x:auto}}
+
 .faq-section{background:var(--white);padding:80px 48px;border-top:1px solid var(--bdr)}
 .faq-inner{max-width:700px;margin:0 auto}
 .faq-header{text-align:center;margin-bottom:44px}
@@ -401,6 +432,12 @@ a{text-decoration:none}
 .cta-section p{font-size:16px;color:rgba(255,255,255,.45);margin-bottom:36px;position:relative;z-index:1}
 .cta-acts{display:flex;gap:12px;justify-content:center;position:relative;z-index:1;flex-wrap:wrap}
 .cta-note{font-size:12px;color:rgba(255,255,255,.3);margin-top:18px;position:relative;z-index:1}
+.cta-faces{display:flex;justify-content:center;align-items:center;gap:0;margin-bottom:26px;position:relative;z-index:1}
+.cta-face{width:46px;height:46px;border-radius:50%;overflow:hidden;margin-left:-12px;border:2px solid var(--void);background:var(--void3);box-shadow:0 4px 14px rgba(0,0,0,.4);transition:transform .25s}
+.cta-face:first-child{margin-left:0}
+.cta-face img{width:100%;height:100%;object-fit:cover;display:block}
+.cta-faces:hover .cta-face{transform:translateY(-3px)}
+@media(max-width:640px){.cta-face{width:38px;height:38px}}
 
 /* ═══════════════════════════════
    FOOTER
@@ -436,7 +473,9 @@ a{text-decoration:none}
   .mm-body{grid-template-columns:1fr 1fr}
   .opps-grid{grid-template-columns:1fr 1fr}
   .htab-panel.on{grid-template-columns:1fr;gap:28px}
-  .how-steps{grid-template-columns:1fr}
+  .how-steps{grid-template-columns:1fr;gap:48px}
+  .how-step{padding:0}
+  .how-step-photo{aspect-ratio:16/7}
   .how-steps::before{display:none}
   .trust-inner{grid-template-columns:1fr}
   .bento-grid{grid-template-columns:1fr}.bc.wide{grid-column:span 1}
@@ -456,6 +495,9 @@ a{text-decoration:none}
   .hpanel-av img{object-position:center 24%}
   .proof-av{width:28px;height:28px}
   .htab-av{width:38px;height:38px}
+  .face-card{width:158px}
+  .faces-section{padding:64px 0 68px}
+  .how-step-photo{aspect-ratio:16/9}
 }
 </style>
 </head>
@@ -474,6 +516,7 @@ a{text-decoration:none}
     <a href="#opportunities">Opportunities</a>
     <a href="#how">How it works</a>
     <a href="#trust">Trust</a>
+    <a href="#community">Community</a>
     <a href="#pricing">Pricing</a>
   </div>
   <div class="nav-r">
@@ -863,6 +906,7 @@ a{text-decoration:none}
     </div>
     <div class="how-steps">
       <div class="how-step reveal">
+        <div class="how-step-photo"><img src="assets/scenes/find-w.jpg" alt="A contractor finds a live opportunity" width="900" height="563" loading="lazy" decoding="async"/><span class="how-step-photo-tag"><i style="background:var(--gold)"></i>Find</span></div>
         <div class="how-step-num how-step-n1"><div class="how-step-icon">🔍</div></div>
         <div class="how-step-label ls-gold">01 — FIND</div>
         <div class="how-step-title">Discover Opportunities</div>
@@ -877,6 +921,7 @@ a{text-decoration:none}
         </div>
       </div>
       <div class="how-step reveal reveal-d1">
+        <div class="how-step-photo"><img src="assets/scenes/connect-w.jpg" alt="Client and contractor negotiate terms" width="900" height="563" loading="lazy" decoding="async"/><span class="how-step-photo-tag"><i style="background:var(--blue)"></i>Connect</span></div>
         <div class="how-step-num how-step-n2"><div class="how-step-icon">🤝</div></div>
         <div class="how-step-label ls-blue">02 — CONNECT</div>
         <div class="how-step-title">Propose & Negotiate</div>
@@ -891,6 +936,7 @@ a{text-decoration:none}
         </div>
       </div>
       <div class="how-step reveal reveal-d2">
+        <div class="how-step-photo"><img src="assets/scenes/close-w.jpg" alt="Deal closed and signed" width="900" height="563" loading="lazy" decoding="async"/><span class="how-step-photo-tag"><i style="background:var(--grn)"></i>Close</span></div>
         <div class="how-step-num how-step-n3"><div class="how-step-icon">✅</div></div>
         <div class="how-step-label ls-grn">03 — CLOSE</div>
         <div class="how-step-title">Contract & Get Paid</div>
@@ -918,7 +964,7 @@ a{text-decoration:none}
       <div class="trust-score-card">
         <div class="tsc-head">
           <div class="tsc-biz">
-            <div class="tsc-biz-av">RT</div>
+            <div class="tsc-biz-av"><img src="assets/people/adetoye-av.jpg" alt="Engr. Adetoye Austine, Rehoteq Technologies" width="48" height="48" loading="lazy" decoding="async"/></div>
             <div>
               <div class="tsc-biz-name">Rehoteq Technologies</div>
               <div class="tsc-biz-type">⭐ 4.9 · Electrical & Solar · Okitipupa</div>
@@ -1086,6 +1132,42 @@ a{text-decoration:none}
   </div>
 </section>
 
+<!-- ══════════ FACES ══════════ -->
+<section class="faces-section" id="community">
+  <div class="faces-head reveal">
+    <div class="section-eyebrow" style="color:var(--gold)">The Kontraq community</div>
+    <h2 class="section-h2">Real businesses. Every state. Every sector.</h2>
+    <p class="section-sub">From a solar engineer in Okitipupa to a textile workshop in Kaduna and a materials trader in Onitsha — Kontraq is built for the people who actually do the work.</p>
+  </div>
+  <div class="faces-viewport">
+    <div class="faces-track">
+      <figure class="face-card"><img src="assets/people/adetoye-lg.jpg" alt="Engr. Adetoye A., Electrical & Solar Engineer, Okitipupa, Ondo" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Engr. Adetoye A.</div><div class="face-role">Electrical &amp; Solar Engineer</div><span class="face-loc">◉ Okitipupa, Ondo</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/funmilayo-lg.jpg" alt="Funmilayo Makinde, Procurement Manager, Abuja" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Funmilayo Makinde</div><div class="face-role">Procurement Manager</div><span class="face-loc">◉ Abuja</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/musa-lg.jpg" alt="Alhaji Musa Bello, Agric Equipment Supplier, Kano" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Alhaji Musa Bello</div><div class="face-role">Agric Equipment Supplier</div><span class="face-loc">◉ Kano</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/chioma-lg.jpg" alt="Chioma Obiora, Building Materials Trader, Onitsha" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Chioma Obiora</div><div class="face-role">Building Materials Trader</div><span class="face-loc">◉ Onitsha</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/kehinde-lg.jpg" alt="Kehinde Adeyemi, ICT Infrastructure, Lagos" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Kehinde Adeyemi</div><div class="face-role">ICT Infrastructure</div><span class="face-loc">◉ Lagos</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/aisha-lg.jpg" alt="Aisha Mohammed, Textiles & Tailoring, Kaduna" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Aisha Mohammed</div><div class="face-role">Textiles &amp; Tailoring</div><span class="face-loc">◉ Kaduna</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/olumide-lg.jpg" alt="Olumide Taiwo, Construction & Civil Works, Port Harcourt" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Olumide Taiwo</div><div class="face-role">Construction &amp; Civil Works</div><span class="face-loc">◉ Port Harcourt</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/yetunde-lg.jpg" alt="Yetunde Bakare, Catering & Events, Ibadan" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Yetunde Bakare</div><div class="face-role">Catering &amp; Events</div><span class="face-loc">◉ Ibadan</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/emeka-lg.jpg" alt="Emeka Nwosu, Software Developer, Enugu" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Emeka Nwosu</div><div class="face-role">Software Developer</div><span class="face-loc">◉ Enugu</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/blessing-lg.jpg" alt="Blessing Nwachukwu, Furniture & Interiors, Aba" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Blessing Nwachukwu</div><div class="face-role">Furniture &amp; Interiors</div><span class="face-loc">◉ Aba</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/pieter-lg.jpg" alt="Pieter van Wyk, Logistics & Facilities, Lagos" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Pieter van Wyk</div><div class="face-role">Logistics &amp; Facilities</div><span class="face-loc">◉ Lagos</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/adetoye-lg.jpg" alt="Engr. Adetoye A., Electrical & Solar Engineer, Okitipupa, Ondo" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Engr. Adetoye A.</div><div class="face-role">Electrical &amp; Solar Engineer</div><span class="face-loc">◉ Okitipupa, Ondo</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/funmilayo-lg.jpg" alt="Funmilayo Makinde, Procurement Manager, Abuja" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Funmilayo Makinde</div><div class="face-role">Procurement Manager</div><span class="face-loc">◉ Abuja</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/musa-lg.jpg" alt="Alhaji Musa Bello, Agric Equipment Supplier, Kano" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Alhaji Musa Bello</div><div class="face-role">Agric Equipment Supplier</div><span class="face-loc">◉ Kano</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/chioma-lg.jpg" alt="Chioma Obiora, Building Materials Trader, Onitsha" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Chioma Obiora</div><div class="face-role">Building Materials Trader</div><span class="face-loc">◉ Onitsha</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/kehinde-lg.jpg" alt="Kehinde Adeyemi, ICT Infrastructure, Lagos" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Kehinde Adeyemi</div><div class="face-role">ICT Infrastructure</div><span class="face-loc">◉ Lagos</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/aisha-lg.jpg" alt="Aisha Mohammed, Textiles & Tailoring, Kaduna" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Aisha Mohammed</div><div class="face-role">Textiles &amp; Tailoring</div><span class="face-loc">◉ Kaduna</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/olumide-lg.jpg" alt="Olumide Taiwo, Construction & Civil Works, Port Harcourt" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Olumide Taiwo</div><div class="face-role">Construction &amp; Civil Works</div><span class="face-loc">◉ Port Harcourt</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/yetunde-lg.jpg" alt="Yetunde Bakare, Catering & Events, Ibadan" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Yetunde Bakare</div><div class="face-role">Catering &amp; Events</div><span class="face-loc">◉ Ibadan</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/emeka-lg.jpg" alt="Emeka Nwosu, Software Developer, Enugu" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Emeka Nwosu</div><div class="face-role">Software Developer</div><span class="face-loc">◉ Enugu</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/blessing-lg.jpg" alt="Blessing Nwachukwu, Furniture & Interiors, Aba" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Blessing Nwachukwu</div><div class="face-role">Furniture &amp; Interiors</div><span class="face-loc">◉ Aba</span></figcaption></figure>
+      <figure class="face-card"><img src="assets/people/pieter-lg.jpg" alt="Pieter van Wyk, Logistics & Facilities, Lagos" width="214" height="285" loading="lazy" decoding="async"/><figcaption class="face-meta"><div class="face-name">Pieter van Wyk</div><div class="face-role">Logistics &amp; Facilities</div><span class="face-loc">◉ Lagos</span></figcaption></figure>
+    </div>
+  </div>
+  <div class="faces-foot reveal"><strong>2,400+ verified businesses</strong> across 28 states — and counting.</div>
+</section>
+
 <!-- ══════════ FAQ ══════════ -->
 <section class="faq-section">
   <div class="faq-inner">
@@ -1105,6 +1187,14 @@ a{text-decoration:none}
 <!-- ══════════ CLOSE CTA ══════════ -->
 <section class="cta-section" id="cta">
   <div class="cta-glow"></div>
+  <div class="cta-faces">
+    <div class="cta-face"><img src="assets/people/chioma-av.jpg" alt="Chioma Obiora, building materials trader in Onitsha" width="46" height="46" loading="lazy" decoding="async"/></div>
+    <div class="cta-face"><img src="assets/people/musa-av.jpg" alt="Alhaji Musa Bello, agricultural equipment supplier in Kano" width="46" height="46" loading="lazy" decoding="async"/></div>
+    <div class="cta-face"><img src="assets/people/adetoye-av.jpg" alt="Engr. Adetoye Austine, solar engineer in Okitipupa" width="46" height="46" loading="lazy" decoding="async"/></div>
+    <div class="cta-face"><img src="assets/people/aisha-av.jpg" alt="Aisha Mohammed, textiles and tailoring business owner in Kaduna" width="46" height="46" loading="lazy" decoding="async"/></div>
+    <div class="cta-face"><img src="assets/people/yetunde-av.jpg" alt="Yetunde Bakare, catering and events company owner in Ibadan" width="46" height="46" loading="lazy" decoding="async"/></div>
+    <div class="cta-face"><img src="assets/people/emeka-av.jpg" alt="Emeka Nwosu, software developer in Enugu" width="46" height="46" loading="lazy" decoding="async"/></div>
+  </div>
   <h2>Your next contract<br>is already on <span class="gold-text">Kontraq.</span></h2>
   <p>Free to join. Opportunities waiting. Business starts here.</p>
   <div class="cta-acts">
